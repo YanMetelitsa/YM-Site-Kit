@@ -142,7 +142,7 @@ class YM_Site_Kit {
 						
 						// Deletes old upload.
 						if ( 'image/webp' !== $upload[ 'type' ] && file_exists( $upload[ 'file' ] ) ) {
-							@unlink( $upload[ 'file' ] );
+							wp_delete_file( $upload[ 'file' ] );
 						}
 						
 						// Retrieves new data.
@@ -178,7 +178,7 @@ class YM_Site_Kit {
 							status_header( 403 );
 							nocache_headers();
 					
-							printf( '<h1>%s</h1>', __( 'Maintenance', 'ym-site-kit' ) );
+							printf( '<h1>%s</h1>', esc_html__( 'Maintenance', 'ym-site-kit' ) );
 							exit;
 						}
 					});
