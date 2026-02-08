@@ -2,6 +2,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * YM Site Kit Utility class.
+ */
 class YM_Utility {
 	/**
 	 * Utility slug.
@@ -44,28 +47,33 @@ class YM_Utility {
 	 * }
 	 */
 	public function __construct ( string $slug, array $args = [] ) {
+		// Set default arguments.
 		$args = wp_parse_args( $args, [
 			'title'       => '',
 			'description' => '',
-			'callback'    => function () {},
+			'callback'    => fn () => null,
 		]);
 
+		// Set Utility parameters.
 		$this->slug        = $slug;
 		$this->title       = $args[ 'title' ];
 		$this->description = $args[ 'description' ];
 		$this->callback    = $args[ 'callback' ];
 
+		// Call Utility if enabled.
 		if ( $this->is_enabled() ) {
 			$args[ 'callback' ]();
 		}
 
-		$this->add_settings_field();
+		// Add Utility enable/disable checkbox.
+		$this->add_toggle_checkbox();
 	}
 
 	/**
 	 * Adds new Utility switcher field.
 	 */
-	private function add_settings_field () {
+	private function add_toggle_checkbox () {
+		// Adds toggle checkbox field.
 		add_action( 'admin_init', function () {
 			$option_id = "ymsk-{$this->slug}";
 			

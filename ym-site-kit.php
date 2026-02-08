@@ -3,7 +3,7 @@
 /*
  * Plugin Name:       YM Site Kit
  * Description:       Enhance your website with powerful mini utilities.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Requires PHP:      7.4
  * Requires at least: 6.0
  * Tested up to:      6.9
@@ -23,6 +23,9 @@ define( 'YMSK_ROOT_DIR', plugin_dir_path( __FILE__ ) );
 // Includes Plugin components.
 require_once YMSK_ROOT_DIR . 'includes/ymsk-utility.php';
 
+/**
+ * YM Site Kit main class.
+ */
 class YM_Site_Kit {
 	/**
 	 * Enabled Utilities option name.
@@ -34,10 +37,23 @@ class YM_Site_Kit {
 	/**
 	 * Inits YM Site Kit Plugin.
 	 */
-	public static function init () {
+	public function __construct () {
+		// Adds custom Plugin action links.
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), function ( array $actions ) : array {
+			$utilities_link = sprintf( '<a href="%s" id="utilities-ym-site-kit" aria-label="%s">%s</a>',
+				esc_url( admin_url( 'tools.php?page=ym-site-kit' ) ),
+				esc_html__( 'Open YM Site Kit Utilities', 'ym-site-kit' ),
+				esc_html__( 'Utilities', 'ym-site-kit' ),
+			);
+
+			array_splice( $actions, 1, 0, $utilities_link );
+
+			return $actions;
+		});
+
 		// Adds YM Site Kit (Utilities) page.
 		add_action( 'admin_menu', function (){
-			add_options_page(
+			add_management_page(
 				__( 'Utilities', 'ym-site-kit' ),
 				__( 'Utilities', 'ym-site-kit' ),
 				'manage_options',
@@ -47,12 +63,12 @@ class YM_Site_Kit {
 			);
 		});
 		
-		// Registers YM Site Kit setting.
+		// Registers YM Site Kit settings.
 		add_action( 'admin_init', function () {
 			add_settings_section( 'default', '', fn () => null, 'ym-site-kit', );
 
 			register_setting( 'ym-site-kit', YM_Site_kit::$enabled_utilities_option_name, [
-				'default' => [],
+				'default'           => [],
 				'sanitize_callback' => function ( $input ) : array {
 					$output = [];
 
@@ -69,12 +85,15 @@ class YM_Site_Kit {
 				},
 			]);
 		});
+
+		YM_Site_Kit::register_utilities();
 	}
 
 	/**
 	 * Registers Utilities.
 	 */
-	public static function register_utilities () {
+	private function register_utilities () {
+		// Registers Utilities.
 		add_action( 'after_setup_theme', function () {
 			new YM_Utility( 'comments-deactivator', [
 				'title'       => __( 'Comments Deactivator', 'ym-site-kit' ),
@@ -175,7 +194,8 @@ class YM_Site_Kit {
 				'callback'    => function () {
 					add_filter( 'template_redirect', function () {
 						if ( ! is_user_logged_in() ) {
-							status_header( 403 );
+							status_header( 503 );
+							header( 'Retry-After: 3600' );
 							nocache_headers();
 					
 							printf( '<h1>%s</h1>', esc_html__( 'Maintenance', 'ym-site-kit' ) );
@@ -192,12 +212,11 @@ class YM_Site_Kit {
 	 * 
 	 * @return array
 	 */
-	public static function get_enabled_utilities ():  array {
+	public static function get_enabled_utilities () : array {
 		$value = get_option( YM_Site_kit::$enabled_utilities_option_name, [] );
 
 		return array_values( $value ?: [] );
 	}
 }
 
-YM_Site_Kit::init();
-YM_Site_Kit::register_utilities();
+new YM_Site_Kit();

@@ -1,16 +1,4 @@
-=== YM Site Kit ===
-Contributors: yanmetelitsa
-Tags: kit, tools, utilities
-Stable tag: 0.1.1
-Requires PHP: 7.4
-Requires at least: 6.0
-Tested up to: 6.9
-License: GPLv3
-License URI: https://www.gnu.org/licenses/gpl-3.0.html
-
-Enhance your website with powerful mini utilities.
-
-== Description ==
+# Description
 
 **YM Site Kit** provides a collection of small, practical utilities designed to make working with your WordPress site more convenient and efficient.
 
@@ -18,7 +6,7 @@ This plugin is built on the experience of developing and administering dozens of
 
 It is lightweight and contains only what is truly necessary for almost any site. At the same time, you can choose which utilities to activate on your own site.
 
-=== Available Utilities ===
+## Available Utilities
 
 **Comments Deactivator**
 
@@ -36,7 +24,7 @@ Removes certain rarely used fields from the User Edit page in the admin area.
 
 Enables a mode where only administrators can access the public part of the site.
 
-== Changelog ==
+# Changelog
 
-= 0.1.1 =
+## 0.1.1
 * Initial release
