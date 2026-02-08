@@ -36,6 +36,8 @@ Removes certain rarely used fields from the User Edit page in the admin area.
 
 Enables a mode where only administrators can access the public part of the site.
 
+This plugin continues to evolve and gain new tools, but only those that are truly necessary for most sites, based on the experience of building dozens of completed and upcoming WordPress projects.
+
 == Changelog ==
 
 = 0.1.1 =
