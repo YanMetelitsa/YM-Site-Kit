@@ -8,19 +8,19 @@ It is lightweight and contains only what is truly necessary for almost any site.
 
 ## Available Utilities
 
-**Comments Deactivator**
+### 💬 Comments Deactivator
 
 Disables discussion features for posts and pages, and removes comment elements from the admin interface.
 
-**Media Converter**
+### 🖼️ Media Converter
 
 Automatically converts images to WebP format upon upload, while also compressing and resizing large files.
 
-**Hide User Fields**
+### 👤 Hide User Fields
 
 Removes certain rarely used fields from the User Edit page in the admin area.
 
-**Maintenance Mode**
+### 🛠️ Maintenance Mode
 
 Enables a mode where only administrators can access the public part of the site.
 
