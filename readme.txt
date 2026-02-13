@@ -1,14 +1,14 @@
 === YM Site Kit ===
 Contributors: yanmetelitsa
 Tags: kit, tools, utilities
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 Requires PHP: 7.4
 Requires at least: 6.0
 Tested up to: 6.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Enhance your website with powerful mini utilities.
+Enhance your website with powerful mini‑utilities.
 
 == Description ==
 
@@ -42,5 +42,5 @@ This plugin continues to evolve and gain new tools, but only those that are trul
 
 == Changelog ==
 
-= 0.1.1 =
+= 0.1.2 =
 * Initial release

@@ -2,8 +2,8 @@
 
 /*
  * Plugin Name:       YM Site Kit
- * Description:       Enhance your website with powerful mini utilities.
- * Version:           0.1.1
+ * Description:       Enhance your website with powerful mini‑utilities.
+ * Version:           0.1.2
  * Requires PHP:      7.4
  * Requires at least: 6.0
  * Tested up to:      6.9
@@ -17,8 +17,15 @@
 // Exits if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+// Gets plugin data.
+if ( ! function_exists( 'get_plugin_data' ) ) {
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+}
+
 // Defines Plugin constants.
+define( 'YMSK_PLUGIN_DATA', get_plugin_data( __FILE__, true, false ) );
 define( 'YMSK_ROOT_DIR', plugin_dir_path( __FILE__ ) );
+define( 'YMSK_ROOT_URI', plugin_dir_url( __FILE__ ) );
 
 // Includes Plugin components.
 require_once YMSK_ROOT_DIR . 'includes/ymsk-utility.php';
@@ -26,23 +33,15 @@ require_once YMSK_ROOT_DIR . 'includes/ymsk-utility.php';
 /**
  * YM Site Kit main class.
  */
-class YM_Site_Kit {
-	/**
-	 * Enabled Utilities option name.
-	 * 
-	 * @var string
-	 */
-	public static string $enabled_utilities_option_name = 'ymsk-enabled-utilities';
-
+class YMSK_Plugin {
 	/**
 	 * Inits YM Site Kit Plugin.
 	 */
 	public function __construct () {
 		// Adds custom Plugin action links.
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), function ( array $actions ) : array {
-			$utilities_link = sprintf( '<a href="%s" id="utilities-ym-site-kit" aria-label="%s">%s</a>',
-				esc_url( admin_url( 'tools.php?page=ym-site-kit' ) ),
-				esc_html__( 'Open YM Site Kit Utilities', 'ym-site-kit' ),
+			$utilities_link = sprintf( '<a href="%s">%s</a>',
+				esc_url( admin_url( 'tools.php?page=ymsk-utilities' ) ),
 				esc_html__( 'Utilities', 'ym-site-kit' ),
 			);
 
@@ -51,23 +50,29 @@ class YM_Site_Kit {
 			return $actions;
 		});
 
-		// Adds YM Site Kit (Utilities) page.
+		// Connects Plugin styles and scripts.
+		add_action( 'admin_enqueue_scripts', function () {
+			wp_enqueue_style( 'ymsk-admin-style', YMSK_ROOT_URI . 'assets/css/ymsk-admin.css', [], YMSK_PLUGIN_DATA[ 'Version' ] );
+			wp_enqueue_script( 'ymsk-admin-script', YMSK_ROOT_URI . 'assets/js/ymsk-admin.js', [], YMSK_PLUGIN_DATA[ 'Version' ], true );
+		});
+
+		// Adds Utilities page.
 		add_action( 'admin_menu', function (){
 			add_management_page(
 				__( 'Utilities', 'ym-site-kit' ),
 				__( 'Utilities', 'ym-site-kit' ),
 				'manage_options',
-				'ym-site-kit',
-				fn () => include YMSK_ROOT_DIR . 'parts/page.php',
+				'ymsk-utilities',
+				fn () => include YMSK_ROOT_DIR . 'parts/utilities.php',
 				1,
 			);
 		});
 		
-		// Registers YM Site Kit settings.
+		// Registers Plugin settings.
 		add_action( 'admin_init', function () {
-			add_settings_section( 'default', '', fn () => null, 'ym-site-kit', );
+			add_settings_section( 'default', '', fn () => null, 'ymsk-utilities', );
 
-			register_setting( 'ym-site-kit', YM_Site_kit::$enabled_utilities_option_name, [
+			register_setting( 'ymsk-settings', 'ymsk-enabled-utilities', [
 				'default'           => [],
 				'sanitize_callback' => function ( $input ) : array {
 					$output = [];
@@ -86,16 +91,9 @@ class YM_Site_Kit {
 			]);
 		});
 
-		YM_Site_Kit::register_utilities();
-	}
-
-	/**
-	 * Registers Utilities.
-	 */
-	private function register_utilities () {
 		// Registers Utilities.
 		add_action( 'after_setup_theme', function () {
-			new YM_Utility( 'comments-deactivator', [
+			new YMSK_Utility( 'comments-deactivator', [
 				'title'       => __( 'Comments Deactivator', 'ym-site-kit' ),
 				'description' => __( 'Disables discussion features', 'ym-site-kit' ),
 				'callback'    => function () {
@@ -114,7 +112,7 @@ class YM_Site_Kit {
 				},
 			]);
 
-			new YM_Utility( 'media-converter', [
+			new YMSK_Utility( 'media-converter', [
 				'title'       => __( 'Media Converter', 'ym-site-kit' ),
 				'description' => __( 'Converts and compresses JPG and PNG files into WebP format', 'ym-site-kit' ),
 				'callback'    => function () {
@@ -174,21 +172,29 @@ class YM_Site_Kit {
 				},
 			]);
 
-			new YM_Utility( 'hide-user-fields', [
+			new YMSK_Utility( 'hide-user-fields', [
 				'title'       => __( 'Hide User Fields', 'ym-site-kit' ),
 				'description' => __( 'Hides specific fields on the User Edit page', 'ym-site-kit' ),
 				'callback'    => function () {
-					add_action( 'admin_head-user-edit.php', function () {
-						printf( '<style>%s { display: none }</style>', implode( ', ', [
-							'.form-table tr.user-admin-color-wrap',
-							'.form-table tr.user-comment-shortcuts-wrap',
-							'.application-passwords',
-						]));
+					add_action( 'admin_enqueue_scripts', function () {
+						global $pagenow;
+
+						if ( 'user-edit.php' == $pagenow ) {
+							$style = sprintf( '%s { display: none }',
+								implode( ', ', [
+									'.form-table tr.user-admin-color-wrap',
+									'.form-table tr.user-comment-shortcuts-wrap',
+									'.application-passwords',
+								])
+							);
+
+							wp_add_inline_style( 'ymsk-admin-style', $style );
+						}
 					});
 				},
 			]);
 
-			new YM_Utility( 'maintenance-mode', [
+			new YMSK_Utility( 'maintenance-mode', [
 				'title'       => __( 'Maintenance Mode', 'ym-site-kit' ),
 				'description' => __( 'Allows only logged-in Users to access the site', 'ym-site-kit' ),
 				'callback'    => function () {
@@ -198,7 +204,8 @@ class YM_Site_Kit {
 							header( 'Retry-After: 3600' );
 							nocache_headers();
 					
-							printf( '<h1>%s</h1>', esc_html__( 'Maintenance', 'ym-site-kit' ) );
+							include YMSK_ROOT_DIR . 'parts/maintenance.php';
+
 							exit;
 						}
 					});
@@ -213,10 +220,10 @@ class YM_Site_Kit {
 	 * @return array
 	 */
 	public static function get_enabled_utilities () : array {
-		$value = get_option( YM_Site_kit::$enabled_utilities_option_name, [] );
+		$value = get_option( 'ymsk-enabled-utilities', [] );
 
 		return array_values( $value ?: [] );
 	}
 }
 
-new YM_Site_Kit();
+new YMSK_Plugin();

@@ -30,5 +30,5 @@ This plugin continues to evolve and gain new tools, but only those that are trul
 
 # Changelog
 
-## 0.1.1
+## 0.1.2
 * Initial release

@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * YM Site Kit Utility class.
  */
-class YM_Utility {
+class YMSK_Utility {
 	/**
 	 * Utility slug.
 	 * 
@@ -77,14 +77,14 @@ class YM_Utility {
 		add_action( 'admin_init', function () {
 			$option_id = "ymsk-{$this->slug}";
 			
-			add_settings_field( $option_id,
+			add_settings_field(
+				$option_id,
 				$this->title,
 				fn ( $args ) => include YMSK_ROOT_DIR . 'parts/checkbox.php',
-				'ym-site-kit',
+				'ymsk-utilities',
 				'default',
 				[
-					'label_for'  => $option_id,
-					'is_checked' => $this->is_enabled(),
+					'label_for' => $option_id,
 				],
 			);
 		});
@@ -96,6 +96,6 @@ class YM_Utility {
 	 * @return bool
 	 */
 	public function is_enabled () : bool {
-		return in_array( $this->slug, YM_Site_Kit::get_enabled_utilities() );
+		return in_array( $this->slug, YMSK_Plugin::get_enabled_utilities() );
 	}
 }

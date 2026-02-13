@@ -9,7 +9,7 @@
 		<?php printf( '<input name="ymsk-enabled-utilities[]" type="checkbox" id="%s" value="%s" %s>',
 			esc_attr( $args[ 'label_for' ] ),
 			esc_attr( $this->slug ),
-			checked( $args[ 'is_checked' ], true, false ),
+			checked( $this->is_enabled(), true, false ),
 		); ?>
 
 		<?php echo esc_html( $this->description ); ?>

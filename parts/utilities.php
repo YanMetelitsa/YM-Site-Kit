@@ -5,8 +5,8 @@
 
 	<form method="POST" action="options.php">
 		<?php
-			settings_fields( 'ym-site-kit' );
-			do_settings_sections( 'ym-site-kit' );
+			settings_fields( 'ymsk-settings' );
+			do_settings_sections( 'ymsk-utilities' );
 			submit_button();
 		?>
 	</form>
