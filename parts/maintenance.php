@@ -10,7 +10,13 @@
 	</head>
 
 	<body>
-		<h1><?php echo esc_html__( 'Maintenance', 'ym-site-kit' ); ?></h1>
-		<p><?php echo esc_html__( 'We are currently performing maintenance on the website. Please check back later.', 'ym-site-kit' ); ?></p>
+		<?php echo wp_kses_post(
+			apply_filters( 'ymsk_maintenance_mode_content',
+				sprintf( "<h1>%s</h1>\n<p>%s</p>",
+					__( 'Maintenance', 'ym-site-kit' ),
+					__( 'We are currently performing maintenance on the website. Please check back later.', 'ym-site-kit' ),
+				)
+			)
+		); ?>
 	</body>
 </html>

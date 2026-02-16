@@ -1,7 +1,7 @@
 === YM Site Kit ===
 Contributors: yanmetelitsa
 Tags: kit, tools, utilities
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 Requires PHP: 7.4
 Requires at least: 6.0
 Tested up to: 6.9
@@ -20,6 +20,10 @@ It is lightweight and contains only what is truly necessary for almost any site.
 
 === Available Utilities ===
 
+ℹ️ **Advanced Columns**
+
+Adds new and removes some rarely used columns in the Post Type and Taxonomy list tables in the admin area.
+
 💬 **Comments Deactivator**
 
 Disables discussion features for posts and pages, and removes comment elements from the admin interface.
@@ -34,13 +38,20 @@ Removes certain rarely used fields from the User Edit page in the admin area.
 
 🛠️ **Maintenance Mode**
 
-Enables a mode where only administrators can access the public part of the site.
+Enables a mode where only logged-in Users can access the public part of the site.
 
 === Upcoming Features ===
 
 This plugin continues to evolve and gain new tools, but only those that are truly necessary for most sites, based on the experience of building dozens of completed and upcoming WordPress projects.
 
 == Changelog ==
+
+= 0.1.3 =
+* New: Advanced Columns Utility
+* New: Utilities Actions and Filters
+* Fix: Comments Deactivator improvements
+* Fix: Media Converter improvements
+* Fix: Small usability improvements
 
 = 0.1.2 =
 * Initial release

@@ -60,6 +60,9 @@ class YMSK_Utility {
 		$this->description = $args[ 'description' ];
 		$this->callback    = $args[ 'callback' ];
 
+		// Push Utility to Plugin static list.
+		YMSK_Plugin::$utilities[ $this->slug ] = $this;
+
 		// Call Utility if enabled.
 		if ( $this->is_enabled() ) {
 			$args[ 'callback' ]();
@@ -80,11 +83,15 @@ class YMSK_Utility {
 			add_settings_field(
 				$option_id,
 				$this->title,
-				fn ( $args ) => include YMSK_ROOT_DIR . 'parts/checkbox.php',
+				fn ( $args ) => load_template( YMSK_ROOT_DIR . 'parts/checkbox.php', false, $args ),
 				'ymsk-utilities',
 				'default',
 				[
-					'label_for' => $option_id,
+					'title'       => $this->title,
+					'slug'        => $this->slug,
+					'label_for'   => $option_id,
+					'is_enabled'  => $this->is_enabled(),
+					'description' => $this->description,
 				],
 			);
 		});

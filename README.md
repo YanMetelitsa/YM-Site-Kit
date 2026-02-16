@@ -8,6 +8,10 @@ It is lightweight and contains only what is truly necessary for almost any site.
 
 ## Available Utilities
 
+### ℹ️ Advanced Columns
+
+Adds new and removes some rarely used columns in the post type and taxonomy list tables in the admin area.
+
 ### 💬 Comments Deactivator
 
 Disables discussion features for posts and pages, and removes comment elements from the admin interface.
@@ -22,7 +26,7 @@ Removes certain rarely used fields from the User Edit page in the admin area.
 
 ### 🛠️ Maintenance Mode
 
-Enables a mode where only administrators can access the public part of the site.
+Enables a mode where only logged-in Users can access the public part of the site.
 
 ## Upcoming Features
 
