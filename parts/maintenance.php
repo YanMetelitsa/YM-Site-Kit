@@ -14,7 +14,7 @@
 			apply_filters( 'ymsk_maintenance_mode_content',
 				sprintf( "<h1>%s</h1>\n<p>%s</p>",
 					__( 'Maintenance', 'ym-site-kit' ),
-					__( 'We are currently performing maintenance on the website. Please check back later.', 'ym-site-kit' ),
+					__( 'The site is currently undergoing maintenance. Please check back later.', 'ym-site-kit' ),
 				)
 			)
 		); ?>

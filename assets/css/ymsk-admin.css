@@ -1,3 +1,6 @@
+table.wp-list-table {
+  /* Advanced Columns */
+}
 table.wp-list-table th.column-ymsk-thumbnail {
   width: 40px;
   opacity: 0.75;
@@ -7,12 +10,20 @@ table.wp-list-table th.column-ymsk-thumbnail {
     display: none;
   }
 }
+table.wp-list-table th.column-ymsk-thumbnail .text {
+  display: none;
+}
 table.wp-list-table th.column-ymsk-thumbnail .dashicons {
   width: 100%;
   font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+table.wp-list-table th.column-ymsk-thumbnail .dashicons::before {
+  vertical-align: sub;
+}
+@media (max-width: 782px) {
+  table.wp-list-table td.column-ymsk-thumbnail {
+    display: none;
+  }
 }
 table.wp-list-table td.column-ymsk-thumbnail img, table.wp-list-table td.column-ymsk-thumbnail .dashicons {
   width: 40px;
@@ -23,11 +34,21 @@ table.wp-list-table td.column-ymsk-thumbnail .dashicons {
   opacity: 0.1;
   font-size: 40px;
 }
+@media (max-width: 782px) {
+  table.wp-list-table tr.is-expanded td.column-ymsk-thumbnail {
+    padding: 8px 8px 2px 35%;
+    display: flex !important;
+    align-items: center;
+  }
+}
 table.wp-list-table th.column-ymsk-filesize {
   width: 110px;
 }
 table.wp-list-table th.column-ymsk-template {
   width: 150px;
+}
+table.wp-list-table {
+  /* WooCommerce fix */
 }
 body.post-type-product table.wp-list-table.tags th.column-name.column-primary {
   width: auto;

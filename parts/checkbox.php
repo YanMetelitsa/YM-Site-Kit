@@ -12,6 +12,10 @@
 			checked( $args[ 'is_enabled' ], true, false ),
 		); ?>
 
-		<?php echo esc_html( $args[ 'description' ] ); ?>
+		<?php echo esc_html( $args[ 'label' ] ); ?>
 	</label>
+
+	<?php if ( $args[ 'description' ] ) : ?>
+		<p class="description"><?php echo esc_html( $args[ 'description' ] ); ?></p>
+	<?php endif; ?>
 </fieldset>

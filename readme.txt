@@ -1,7 +1,7 @@
 === YM Site Kit ===
 Contributors: yanmetelitsa
 Tags: kit, tools, utilities
-Stable tag: 0.1.3
+Stable tag: 0.1.4
 Requires PHP: 7.4
 Requires at least: 6.0
 Tested up to: 6.9
@@ -12,46 +12,55 @@ Enhance your website with powerful mini‑utilities.
 
 == Description ==
 
-**YM Site Kit** provides a collection of small, practical utilities designed to make working with your WordPress site more convenient and efficient.
+**YM Site Kit** is a collection of small, practical utilities designed to make working with your WordPress site more convenient and efficient.
 
-This plugin is built on the experience of developing and administering dozens of WordPress sites and includes the tools that most often prove essential.
+The plugin is based on real-world experience building and maintaining dozens of WordPress sites and includes tools that most often prove essential.
 
-It is lightweight and contains only what is truly necessary for almost any site. At the same time, you can choose which utilities to activate on your own site.
+It is lightweight and includes only what is necessary for most sites. You can enable only the utilities you need.
 
-=== Available Utilities ===
+=== Utilities ===
 
 ℹ️ **Advanced Columns**
 
-Adds new and removes some rarely used columns in the Post Type and Taxonomy list tables in the admin area.
+Adds useful columns to Post, Page, Plugin, and other list tables, and hides some rarely used ones.
 
 💬 **Comments Deactivator**
 
-Disables discussion features for posts and pages, and removes comment elements from the admin interface.
-
-🖼️ **Media Converter**
-
-Automatically converts images to WebP format upon upload, while also compressing and resizing large files.
+Turns off the discussion system and hides comment-related elements in the admin interface.
 
 👤 **Hide User Fields**
 
-Removes certain rarely used fields from the User Edit page in the admin area.
+Hides rarely used fields on the Edit User screen to simplify the interface.
 
 🛠️ **Maintenance Mode**
 
-Enables a mode where only logged-in Users can access the public part of the site.
+Allows only administrators to access the public part of the site.
+
+🖼️ **Media Converter**
+
+Automatically compresses and converts images to WebP upon upload.
+
+🔤 **Transliterator**
+
+Automatically replaces certain symbols in Post and Term slugs on save.
 
 === Upcoming Features ===
 
-This plugin continues to evolve and gain new tools, but only those that are truly necessary for most sites, based on the experience of building dozens of completed and upcoming WordPress projects.
+The plugin continues to evolve and gain new tools, adding only what is truly necessary for most sites based on experience from dozens of WordPress projects.
 
 == Changelog ==
 
+= 0.1.4 =
+* New: **Transliterator** Utility
+* Fix: **Advanced Columns** improvements
+* Other small fixes and improvements
+
 = 0.1.3 =
-* New: Advanced Columns Utility
+* New: **Advanced Columns** Utility
 * New: Utilities Actions and Filters
-* Fix: Comments Deactivator improvements
-* Fix: Media Converter improvements
-* Fix: Small usability improvements
+* Fix: **Comments Deactivator** improvements
+* Fix: **Media Converter** improvements
+* Other small fixes and improvements
 
 = 0.1.2 =
 * Initial release

@@ -14,11 +14,29 @@ class YMSK_Utility {
 	public string $slug;
 
 	/**
+	 * Is beta version.
+	 * 
+	 * @since 0.1.4
+	 * 
+	 * @var bool
+	 */
+	public string $is_beta;
+
+	/**
 	 * Utility title.
 	 * 
 	 * @var string
 	 */
 	public string $title;
+
+	/**
+	 * Utility label.
+	 * 
+	 * @since 0.1.4
+	 * 
+	 * @var string
+	 */
+	public string $label;
 
 	/**
 	 * Utility description.
@@ -41,7 +59,9 @@ class YMSK_Utility {
 	 * @param array  $args {
 	 * 		Utility arguments.
 	 * 
+	 * 		@type bool    $is_beta     Is beta version.
 	 * 		@type string  $title       Utility title.
+	 * 		@type string  $label       Utility label.
 	 * 		@type string  $description Utility description.
 	 * 		@type Closure $callback    Utility callback.
 	 * }
@@ -49,14 +69,18 @@ class YMSK_Utility {
 	public function __construct ( string $slug, array $args = [] ) {
 		// Set default arguments.
 		$args = wp_parse_args( $args, [
+			'is_beta'     => false,
 			'title'       => '',
+			'label'       => '',
 			'description' => '',
 			'callback'    => fn () => null,
 		]);
 
 		// Set Utility parameters.
 		$this->slug        = $slug;
-		$this->title       = $args[ 'title' ];
+		$this->is_beta     = $args[ 'is_beta' ];
+		$this->title       = $args[ 'title' ] . ( $this->is_beta ? ' <sup>&beta;</sup>' : '' );
+		$this->label       = $args[ 'label' ];
 		$this->description = $args[ 'description' ];
 		$this->callback    = $args[ 'callback' ];
 
@@ -87,11 +111,12 @@ class YMSK_Utility {
 				'ymsk-utilities',
 				'default',
 				[
-					'title'       => $this->title,
 					'slug'        => $this->slug,
+					'title'       => $this->title,
+					'label'       => $this->label,
 					'label_for'   => $option_id,
-					'is_enabled'  => $this->is_enabled(),
 					'description' => $this->description,
+					'is_enabled'  => $this->is_enabled(),
 				],
 			);
 		});
