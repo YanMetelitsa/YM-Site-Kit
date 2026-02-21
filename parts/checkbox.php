@@ -16,6 +16,6 @@
 	</label>
 
 	<?php if ( $args[ 'description' ] ) : ?>
-		<p class="description"><?php echo esc_html( $args[ 'description' ] ); ?></p>
+		<p class="description"><?php echo wp_kses_post( $args[ 'description' ] ); ?></p>
 	<?php endif; ?>
 </fieldset>

@@ -14,7 +14,13 @@ new YMSK_Utility( 'maintenance-mode', [
 				header( 'Retry-After: 3600' );
 				nocache_headers();
 
-				load_template( YMSK_ROOT_DIR . 'parts/maintenance.php' );
+				$template_path = YMSK_ROOT_DIR . 'parts/maintenance.php';
+
+				if ( file_exists( get_theme_file_path( 'maintenance.php' ) ) ) {
+					$template_path = get_theme_file_path( 'maintenance.php' );
+				}
+
+				load_template( $template_path );
 
 				exit;
 			}

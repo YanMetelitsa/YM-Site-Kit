@@ -1,7 +1,7 @@
 === YM Site Kit ===
 Contributors: yanmetelitsa
 Tags: kit, tools, utilities
-Stable tag: 0.1.4
+Stable tag: 0.1.5
 Requires PHP: 7.4
 Requires at least: 6.0
 Tested up to: 6.9
@@ -40,6 +40,10 @@ Allows only administrators to access the public part of the site.
 
 Automatically compresses and converts images to WebP upon upload.
 
+®️ **SVG Logo**
+
+Replaces the `<img>` element with `<svg>` when using `get_custom_logo()` function and the logo file is an SVG.
+
 🔤 **Transliterator**
 
 Automatically replaces certain symbols in Post and Term slugs on save.
@@ -49,6 +53,11 @@ Automatically replaces certain symbols in Post and Term slugs on save.
 The plugin continues to evolve and gain new tools, adding only what is truly necessary for most sites based on experience from dozens of WordPress projects.
 
 == Changelog ==
+
+= 0.1.5 =
+* New: **SVG Logo** Utility
+* Fix: **Advanced Columns** improvements
+* Fix: **Maintenance Mode** improvements
 
 = 0.1.4 =
 * New: **Transliterator** Utility
