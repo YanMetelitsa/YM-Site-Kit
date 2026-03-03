@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 new YMSK_Utility( 'comments-deactivator', [
+	'section'     => 'administration',
 	'title'       => __( 'Comments Deactivator', 'ym-site-kit' ),
 	'label'       => __( 'Disable discussion features', 'ym-site-kit' ),
 	'description' => __( 'Turns off the discussion system and hides comment-related elements in the admin interface.', 'ym-site-kit' ),

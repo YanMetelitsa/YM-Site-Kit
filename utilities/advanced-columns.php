@@ -50,6 +50,7 @@ class YMSK_Advanced_Columns_Utility extends YMSK_Utility {
 }
 
 new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
+	'section'     => 'administration',
 	'title'       => __( 'Advanced Columns', 'ym-site-kit' ),
 	'label'       => __( 'Display additional columns in list tables', 'ym-site-kit' ),
 	'description' => __( 'Adds useful columns to Post, Page, Plugin, and other list tables, and hides some rarely used ones.', 'ym-site-kit' ),
@@ -81,22 +82,34 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 		add_action( 'manage_media_custom_column', function ( string $column, int $attachment_id ) {
 			switch ( $column ) {
 				case 'ymsk-filesize':
+					// Get file path.
 					$file_path = get_attached_file( $attachment_id );
 
 					if ( ! $file_path || ! file_exists( $file_path ) ) {
-						return;
+						echo '–';
+						break;
 					}
 
-					$file_size        = filesize( $file_path ) / 1024;
-					$allowed_filesize = apply_filters( 'ymsk_advanced_columns_max_filesize', 400 );
+					// Get file size.
+					$file_size           = filesize( $file_path ) / 1024;
+					$formatted_file_size = sprintf( '%s %s',
+						number_format( $file_size, 2 ),
+						/* translators: Kilobytes */
+						esc_html__( 'KB', 'ym-site-kit' ),
+					);
+
+					// Break if file is not image.
+					if ( ! wp_attachment_is_image( $attachment_id ) ) {
+						echo esc_html( $formatted_file_size );
+						break;
+					}
+
+					// Output file size, maybe with mark.
+					$allowed_file_size = apply_filters( 'ymsk_advanced_columns_max_file_size', 400 );
 					
 					printf( '<%1$s>%2$s</%1$s>',
-						$file_size <= $allowed_filesize ? 'span' : 'mark',
-						sprintf( '%s %s',
-							number_format( $file_size, 2 ),
-							/* translators: Kilobytes */
-							esc_html__( 'KB', 'ym-site-kit' ),
-						),
+						esc_attr( $file_size <= $allowed_file_size ? 'span' : 'mark' ),
+						esc_html( $formatted_file_size ),
 					);
 					
 					break;
@@ -129,17 +142,6 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 			}
 		}, 10, 2 );
 
-		// All Taxonomies.
-		add_action( 'admin_init', function () {
-			foreach ( get_taxonomies( [], 'names' ) as $taxonomy ) {
-				add_filter( "manage_edit-{$taxonomy}_columns", function ( array $columns ) : array {
-					unset( $columns[ 'description' ] );
-
-					return $columns;
-				}, 20 );
-			}
-		});
-
 		// Plugin.
 		add_filter( 'manage_plugins_columns', function ( array $columns ) : array {		
 			return YMSK_Advanced_Columns_Utility::insert_thumbnail_th( $columns );
@@ -159,5 +161,28 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 					break;
 			}
 		}, 10, 3 );
+
+
+		// Sets default hidden columns.
+		add_filter( 'default_hidden_columns', function( array $hidden, \WP_Screen $screen ) : array {
+			// Pages.
+			if ( 'edit-page' === $screen->id ) {
+				$hidden[] = 'date';
+			}
+
+			// Users.
+			if ( 'users' === $screen->id ) {
+				$hidden[] = 'posts';
+			}
+
+			// All taxonomies.
+			foreach ( get_taxonomies( [], 'names' ) as $taxonomy ) {
+				if ( "edit-{$taxonomy}" === $screen->id ) {
+					$hidden[] = 'description';
+				}
+			}
+
+			return $hidden;
+		}, 10, 2 );
 	},
 ]);

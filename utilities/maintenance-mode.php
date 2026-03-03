@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 new YMSK_Utility( 'maintenance-mode', [
+	'section'     => 'administration',
 	'title'       => __( 'Maintenance Mode', 'ym-site-kit' ),
 	'label'       => __( 'Enable maintenance mode', 'ym-site-kit' ),
 	'description' => __( 'Allows only administrators to access the public part of the site.', 'ym-site-kit' ),

@@ -32,6 +32,10 @@ Automatically compresses and converts images to WebP upon upload.
 
 Replaces the `<img>` element with `<svg>` when using `get_custom_logo()` function and the logo file is an SVG.
 
+### 📐 SVG Support
+
+Allows administrators to safely upload SVG files to the media library and use them.
+
 ### 🔤 Transliterator
 
 Automatically replaces certain symbols in Post and Term slugs on save.
@@ -42,10 +46,16 @@ The plugin continues to evolve and gain new tools, adding only what is truly nec
 
 # Changelog
 
+## 0.1.6
+* New: **SVG Support** Utility
+* Fix: **Advanced Columns** improvements
+* Other small fixes and improvements
+
 ## 0.1.5
 * New: **SVG Logo** Utility
 * Fix: **Advanced Columns** improvements
 * Fix: **Maintenance Mode** improvements
+* Other small fixes and improvements
 
 ## 0.1.4
 * New: **Transliterator** Utility

@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 new YMSK_Utility( 'media-converter', [
+	'section'     => 'media',
 	'title'       => __( 'Media Converter', 'ym-site-kit' ),
 	'label'       => __( 'Enable conversion', 'ym-site-kit' ),
 	'description' => __( 'Automatically compresses and converts images to WebP upon upload.', 'ym-site-kit' ),

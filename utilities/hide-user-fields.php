@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 new YMSK_Utility( 'hide-user-fields', [
+	'section'     => 'administration',
 	'title'       => __( 'Hide User Fields', 'ym-site-kit' ),
 	'label'       => __( 'Hide fields on the Edit User screen', 'ym-site-kit' ),
 	'description' => __( 'Hides rarely used fields on the Edit User screen to simplify the interface.', 'ym-site-kit' ),

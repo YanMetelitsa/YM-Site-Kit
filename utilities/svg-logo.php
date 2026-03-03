@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 new YMSK_Utility( 'svg-logo', [
+	'section'     => 'media',
 	'title'       => __( 'SVG Logo', 'ym-site-kit' ),
 	'label'       => __( 'Output logo as inline SVG', 'ym-site-kit' ),
 	/* translators: %1$s – <img>, %2$s – <svg>, %3$s – get_custom_logo() */

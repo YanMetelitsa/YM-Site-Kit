@@ -4,7 +4,7 @@
  * Plugin Name:       YM Site Kit
  * Description:       Enhance your website with powerful mini‑utilities.
  * Plugin URI:        https://yanmet.com/blog/ym-site-kit-wordpress-plugin-documentation
- * Version:           0.1.5
+ * Version:           0.1.6
  * Requires PHP:      7.4
  * Requires at least: 6.0
  * Tested up to:      6.9
@@ -111,7 +111,9 @@ class YMSK_Plugin {
 		
 		// Registers Plugin settings.
 		add_action( 'admin_init', function () {
-			add_settings_section( 'default', '', fn () => null, 'ymsk-utilities', );
+			add_settings_section( 'default', '', fn () => null, 'ymsk-utilities' );
+			add_settings_section( 'administration', _x( 'Administration', 'Deverbal noun', 'ym-site-kit' ), fn () => null, 'ymsk-utilities' );
+			add_settings_section( 'media', __( 'Media', 'ym-site-kit' ), fn () => null, 'ymsk-utilities' );
 
 			register_setting( 'ymsk-settings', 'ymsk-enabled-utilities', [
 				'default'           => [],
@@ -167,7 +169,7 @@ class YMSK_Plugin {
 	}
 
 	/**
-	 * Retrieves `true` if specific Utility enabled.
+	 * Returns `true` if specific Utility enabled.
 	 * 
 	 * @since 0.1.3
 	 * 

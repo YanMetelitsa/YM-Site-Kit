@@ -67,10 +67,19 @@ table.wp-list-table {
 		width: 150px;
 	}
 	
-	/* WooCommerce fix */
+	/* WooCommerce Product Terms fix */
 	body.post-type-product &.tags {
 		th.column-name.column-primary {
 			width: auto;
+		}
+	}
+
+	/* Users */
+	&.users {
+		td.column-username {
+			img {
+				border-radius: 2px;
+			}
 		}
 	}
 }

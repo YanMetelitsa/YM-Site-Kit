@@ -39,6 +39,7 @@ class YMSK_Transliterator_Utility extends YMSK_Utility {
 
 new YMSK_Transliterator_Utility( 'transliterator', [
 	'is_beta'     => true,
+	'section'     => 'administration',
 	'title'       => __( 'Transliterator', 'ym-site-kit' ),
 	'label'       => __( 'Enable transliteration', 'ym-site-kit' ),
 	'description' => __( 'Automatically replaces certain symbols in Post and Term slugs on save.', 'ym-site-kit' ),

@@ -23,6 +23,15 @@ class YMSK_Utility {
 	public string $is_beta;
 
 	/**
+	 * Utility section on settings screen.
+	 * 
+	 * @since 0.1.6
+	 * 
+	 * @var bool
+	 */
+	public string $section;
+
+	/**
 	 * Utility title.
 	 * 
 	 * @var string
@@ -60,6 +69,7 @@ class YMSK_Utility {
 	 * 		Utility arguments.
 	 * 
 	 * 		@type bool    $is_beta     Is beta version.
+	 * 		@type string  $section     Utility section on settings screen.
 	 * 		@type string  $title       Utility title.
 	 * 		@type string  $label       Utility label.
 	 * 		@type string  $description Utility description.
@@ -70,6 +80,7 @@ class YMSK_Utility {
 		// Set default arguments.
 		$args = wp_parse_args( $args, [
 			'is_beta'     => false,
+			'section'     => 'default',
 			'title'       => '',
 			'label'       => '',
 			'description' => '',
@@ -79,6 +90,7 @@ class YMSK_Utility {
 		// Set Utility parameters.
 		$this->slug        = $slug;
 		$this->is_beta     = $args[ 'is_beta' ];
+		$this->section     = $args[ 'section' ];
 		$this->title       = $args[ 'title' ] . ( $this->is_beta ? ' <sup>&beta;</sup>' : '' );
 		$this->label       = $args[ 'label' ];
 		$this->description = $args[ 'description' ];
@@ -109,7 +121,7 @@ class YMSK_Utility {
 				$this->title,
 				fn ( $args ) => load_template( YMSK_ROOT_DIR . 'parts/checkbox.php', false, $args ),
 				'ymsk-utilities',
-				'default',
+				$this->section,
 				[
 					'slug'        => $this->slug,
 					'title'       => $this->title,
@@ -123,7 +135,7 @@ class YMSK_Utility {
 	}
 
 	/**
-	 * Retrieves `true` if Utility enabled.
+	 * Returns `true` if Utility enabled.
 	 * 
 	 * @return bool
 	 */

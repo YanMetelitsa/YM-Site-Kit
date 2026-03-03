@@ -48,10 +48,16 @@ table.wp-list-table th.column-ymsk-template {
   width: 150px;
 }
 table.wp-list-table {
-  /* WooCommerce fix */
+  /* WooCommerce Product Terms fix */
 }
 body.post-type-product table.wp-list-table.tags th.column-name.column-primary {
   width: auto;
+}
+table.wp-list-table {
+  /* Users */
+}
+table.wp-list-table.users td.column-username img {
+  border-radius: 2px;
 }
 
 /*# sourceMappingURL=ymsk-admin.css.map */
