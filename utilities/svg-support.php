@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 new YMSK_Utility( 'svg-support', [
+	'is_beta'     => true,
 	'section'     => 'media',
 	'title'       => __( 'SVG Support', 'ym-site-kit' ),
 	'label'       => __( 'Enable SVG support', 'ym-site-kit' ),

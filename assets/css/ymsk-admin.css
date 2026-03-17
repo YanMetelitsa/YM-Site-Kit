@@ -1,3 +1,28 @@
+/* Admin Bar */
+#wpadminbar {
+  /* Maintenance */
+}
+@media (max-width: 782px) {
+  #wpadminbar #wp-admin-bar-ymsk-maintenance {
+    display: flex;
+  }
+}
+@media (max-width: 782px) {
+  #wpadminbar #wp-admin-bar-ymsk-maintenance .ab-item {
+    width: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+}
+@media (max-width: 782px) {
+  #wpadminbar #wp-admin-bar-ymsk-maintenance .ab-item .ab-label {
+    display: none;
+  }
+}
+
+/* List Table */
 table.wp-list-table {
   /* Advanced Columns */
 }

@@ -1,7 +1,7 @@
 === YM Site Kit ===
 Contributors: yanmetelitsa
 Tags: kit, tools, utilities
-Stable tag: 0.1.6
+Stable tag: 0.1.7
 Requires PHP: 7.4
 Requires at least: 6.0
 Tested up to: 6.9
@@ -57,6 +57,10 @@ Automatically replaces certain symbols in Post and Term slugs on save.
 The plugin continues to evolve and gain new tools, adding only what is truly necessary for most sites based on experience from dozens of WordPress projects.
 
 == Changelog ==
+
+= 0.1.7 =
+* Fix: **Maintenance Mode** improvements
+* Fix: **Transliterator** improvements
 
 = 0.1.6 =
 * New: **SVG Support** Utility

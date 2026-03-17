@@ -47,9 +47,10 @@ new YMSK_Transliterator_Utility( 'transliterator', [
 		// Replaces some characters with Latin ones.
 		add_filter( 'sanitize_title', function ( string $title, string $raw_title = '', string $context = '' ) : string {
 			$title = urldecode( $title );
+			$title = mb_strtolower( $title );
 			$title = strtr( $title, YMSK_Transliterator_Utility::get_translit_map() );
 
 			return $title;
-		}, 10, 3 );
+		}, 9, 3 );
 	},
 ]);

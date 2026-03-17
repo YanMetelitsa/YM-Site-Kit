@@ -46,6 +46,10 @@ The plugin continues to evolve and gain new tools, adding only what is truly nec
 
 # Changelog
 
+## 0.1.7
+* Fix: **Maintenance Mode** improvements
+* Fix: **Transliterator** improvements
+
 ## 0.1.6
 * New: **SVG Support** Utility
 * Fix: **Advanced Columns** improvements
