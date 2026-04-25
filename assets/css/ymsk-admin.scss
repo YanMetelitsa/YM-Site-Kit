@@ -95,6 +95,41 @@ table.wp-list-table {
 	th.column-ymsk-template {
 		width: 150px;
 	}
+
+	th.column-ymsk-order {
+		width: 70px;
+		
+		text-align: center;
+	}
+	td.column-ymsk-order {
+		@include ymsk-wp-not-mobile {
+			text-align: center;
+		}
+	}
+
+	/* WooCommerce Product */
+	body.post-type-product &.posts {
+		th.column-thumb {
+			width: 40px;
+			opacity: 0.75;
+		}
+		td.column-thumb {
+			a {
+				display: flex;
+			}
+			
+			img {
+				border-radius: 4px;
+			}
+		}
+	}
+
+	/* Term Posts count fix */
+	&.tags {
+		th.column-posts {
+			width: 85px;
+		}
+	}
 	
 	/* WooCommerce Product Terms fix */
 	body.post-type-product &.tags {

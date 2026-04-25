@@ -12,20 +12,47 @@ new YMSK_Utility( 'hide-user-fields', [
 		add_action( 'admin_enqueue_scripts', function () {
 			$screen = get_current_screen();
 
-			if ( ! $screen ) {
-				return;
-			}
-
-			if ( 'user-edit' == $screen->base || ( 'profile' == $screen->base && ! current_user_can( 'administrator' ) ) ) {
-				$style = sprintf( '%s { display: none }',
-					implode( ', ', [
+			if ( $screen && in_array( $screen->base, [ 'profile', 'user-edit' ] ) ) {
+				// CSS.
+				wp_add_inline_style( 'ymsk-admin-style', sprintf( 'body:not( .ymsk-show-user-hidden-fields ) %s { display: none }',
+					implode( ', body:not( .ymsk-show-user-hidden-fields ) ', [
+						'.form-table tr.user-syntax-highlighting-wrap',
 						'.form-table tr.user-admin-color-wrap',
 						'.form-table tr.user-comment-shortcuts-wrap',
+						'.form-table tr.show-admin-bar.user-admin-bar-front-wrap',
+						'.form-table tr.user-language-wrap',
+						'.form-table tr.user-url-wrap',
+						'.form-table tr.user-description-wrap',
 						'.application-passwords',
-					])
-				);
+					]),
+				));
 
-				wp_add_inline_style( 'ymsk-admin-style', $style );
+				// Adds "Show Hidden Fields" button.
+				add_action( 'personal_options', function ( WP_User $profile_user ) {
+					?>
+
+					<tr class="ym-site-kit-wrap">
+						<th scope="row"><?php esc_html_e( 'Hidden Fields', 'ym-site-kit' ); ?></th>
+						<td>
+							<label for="ymsk-show-hidden-user-fields">
+								<input type="checkbox" id="ymsk-show-hidden-user-fields" oninput="ymskShowHiddenUserFields( this )">
+								<?php esc_html_e( 'Show Hidden Fields', 'ym-site-kit' ); ?>
+							</label><br>
+						</td>
+					</tr>
+
+					<script>
+						function ymskShowHiddenUserFields ( checkbox ) {
+							if ( checkbox.checked ) {
+								document.body.classList.add( 'ymsk-show-user-hidden-fields' );
+							} else {
+								document.body.classList.remove( 'ymsk-show-user-hidden-fields' );
+							}
+						}
+					</script>
+
+					<?php
+				}, 1 );
 			}
 		});
 	},

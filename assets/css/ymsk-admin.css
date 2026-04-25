@@ -72,6 +72,34 @@ table.wp-list-table th.column-ymsk-filesize {
 table.wp-list-table th.column-ymsk-template {
   width: 150px;
 }
+table.wp-list-table th.column-ymsk-order {
+  width: 70px;
+  text-align: center;
+}
+@media (min-width: 783px) {
+  table.wp-list-table td.column-ymsk-order {
+    text-align: center;
+  }
+}
+table.wp-list-table {
+  /* WooCommerce Product */
+}
+body.post-type-product table.wp-list-table.posts th.column-thumb {
+  width: 40px;
+  opacity: 0.75;
+}
+body.post-type-product table.wp-list-table.posts td.column-thumb a {
+  display: flex;
+}
+body.post-type-product table.wp-list-table.posts td.column-thumb img {
+  border-radius: 4px;
+}
+table.wp-list-table {
+  /* Term Posts count fix */
+}
+table.wp-list-table.tags th.column-posts {
+  width: 85px;
+}
 table.wp-list-table {
   /* WooCommerce Product Terms fix */
 }

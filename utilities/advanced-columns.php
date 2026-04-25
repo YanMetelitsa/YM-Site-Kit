@@ -162,25 +162,75 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 			}
 		}, 10, 3 );
 
+		// ACF/SCF Field Group.
+		if ( class_exists( 'ACF' ) ) {
+			add_filter( 'manage_acf-field-group_posts_columns', function ( array $columns ) : array {
+				$new_columns = [];
+				
+				foreach ( $columns as $key => $label ) {
+					$new_columns[ $key ] = $label;
+					
+					if ( 'title' === $key ) {
+						$new_columns[ 'acf-display-title' ] = __( 'Display Title', 'ym-site-kit' );
+					}
+				}
+				
+				return $new_columns;
+			}, 20 );
+			add_action( 'manage_acf-field-group_posts_custom_column', function ( string $column, int $group_id ) {
+				$field_group = acf_get_field_group( $group_id ); // phpcs:ignore
+				
+				switch ( $column ) {
+					case 'acf-display-title':
+						echo esc_html( $field_group[ 'display_title' ] ?: $field_group[ 'title' ] );
+						break;
+				}
+			}, 20, 2 );
+		}
+
+		// Post Types with page attributes (order).
+		foreach ( get_post_types_by_support( 'page-attributes' ) as $post_type ) {
+			add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
+				$columns[ 'ymsk-order' ] = __( 'Order', 'ym-site-kit' );
+
+				return $columns;
+			});
+			add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
+				switch ( $column ) {
+					case 'ymsk-order':
+						echo esc_html( get_post_field( 'menu_order', $post_id ) );
+						break;
+				}
+			}, 10, 2 );
+		}
+
 
 		// Sets default hidden columns.
 		add_filter( 'default_hidden_columns', function( array $hidden, \WP_Screen $screen ) : array {
-			// Pages.
-			if ( 'edit-page' === $screen->id ) {
+			$hidden[] = 'ymsk-order';
+			
+			// Posts.
+			if ( 'edit-post' !== $screen->id ) {
 				$hidden[] = 'date';
 			}
 
 			// Users.
 			if ( 'users' === $screen->id ) {
 				$hidden[] = 'posts';
+				$hidden[] = 'user_jetpack';
 			}
 
-			// All taxonomies.
+			// Taxonomies.
 			foreach ( get_taxonomies( [], 'names' ) as $taxonomy ) {
 				if ( "edit-{$taxonomy}" === $screen->id ) {
 					$hidden[] = 'description';
 				}
 			}
+
+			// ACF / SCF.
+			$hidden[] = 'acf-display-title';
+			$hidden[] = 'acf-description';
+			$hidden[] = 'acf-key';
 
 			return $hidden;
 		}, 10, 2 );

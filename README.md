@@ -44,7 +44,17 @@ Automatically replaces certain symbols in Post and Term slugs on save.
 
 The plugin continues to evolve and gain new tools, adding only what is truly necessary for most sites based on experience from dozens of WordPress projects.
 
+## Documentation
+
+For advanced usage of the plugin, refer to [the official documentation](https://yanmet.com/blog/ym-site-kit-wordpress-plugin-documentation).
+
 # Changelog
+
+
+## 0.1.8
+* Fix: **Advanced Columns** improvements
+* Fix: **Maintenance Mode** improvements
+* Fix: **Hide User Fields** improvements
 
 ## 0.1.7
 * Fix: **Maintenance Mode** improvements

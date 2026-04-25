@@ -4,7 +4,7 @@
  * Plugin Name:       YM Site Kit
  * Description:       Enhance your website with powerful mini‑utilities.
  * Plugin URI:        https://yanmet.com/blog/ym-site-kit-wordpress-plugin-documentation
- * Version:           0.1.7
+ * Version:           0.1.8
  * Requires PHP:      7.4
  * Requires at least: 6.0
  * Tested up to:      6.9
@@ -63,6 +63,13 @@ class YMSK_Plugin {
 
 		// Adds custom Plugin action links.
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), function ( array $actions ) : array {
+			$documentation_link = sprintf( '<a href="%s" target="_blank">%s</a>',
+				esc_url( 'https://yanmet.com/blog/ym-site-kit-wordpress-plugin-documentation' ),
+				esc_html__( 'Documentation', 'ym-site-kit' ),
+			);
+
+			array_unshift( $actions, $documentation_link );
+
 			$utilities_link = sprintf( '<a href="%s">%s</a>',
 				esc_url( YMSK_Plugin::get_utilities_page_url() ),
 				esc_html__( 'Utilities', 'ym-site-kit' ),

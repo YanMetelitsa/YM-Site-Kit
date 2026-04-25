@@ -9,14 +9,16 @@ new YMSK_Utility( 'maintenance-mode', [
 	'description' => __( 'Allows only administrators to access the public part of the site.', 'ym-site-kit' ),
 	'callback'    => function () {
 		// Redirects non-admin User to Maintenance template.
-		add_filter( 'template_redirect', function () {
-			// Allow admins.
+		add_action( 'template_redirect', function () {
+			$request_uri = esc_url_raw( wp_unslash( $_SERVER[ 'REQUEST_URI' ] ?? '' ) );
+
+			// Allow administrators.
 			if ( current_user_can( 'manage_options' ) ) {
 				return;
 			}
 
 			// Allow AJAX.
-			if ( wp_doing_ajax() ) {
+			if ( wp_doing_ajax() || wp_doing_cron() ) {
 				return;
 			}
 
@@ -31,16 +33,11 @@ new YMSK_Utility( 'maintenance-mode', [
 			}
 
 			// Allow WooCommerce API.
-			if ( isset( $_SERVER[ 'REQUEST_URI' ] ) ) {
-				$request_uri = sanitize_url( wp_unslash( $_SERVER[ 'REQUEST_URI' ] ) );
-
-				if ( str_contains( $request_uri, '/wc-api/' ) ) {
-					return;
-				}
+			if ( function_exists( 'wc' ) && wc()->is_rest_api_request() ) {
+				return;
 			}
 
 			status_header( 503 );
-			header( 'Cache-Control: no-store, no-cache, must-revalidate, max-age=0' );
 			header( 'Retry-After: 3600' );
 			nocache_headers();
 
@@ -53,7 +50,7 @@ new YMSK_Utility( 'maintenance-mode', [
 			load_template( $template_path );
 
 			exit;
-		}, 0 );
+		});
 
 		// Adds admin bar notification.
 		add_action( 'admin_bar_menu', function ( WP_Admin_Bar $wp_admin_bar ) {

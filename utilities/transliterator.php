@@ -20,7 +20,7 @@ class YMSK_Transliterator_Utility extends YMSK_Utility {
 				'б' => 'b',  'л' => 'l', 'ц' => 'c',
 				'в' => 'v',  'м' => 'm', 'ч' => 'ch',
 				'г' => 'g',  'н' => 'n', 'ш' => 'sh',
-				'д' => 'd',  'о' => 'o', 'щ' => 'shch',
+				'д' => 'd',  'о' => 'o', 'щ' => 'shch', // cspell:disable-line
 				'е' => 'e',  'п' => 'p', 'ъ' => '',
 				'ё' => 'yo', 'р' => 'r', 'ы' => 'y',
 				'ж' => 'zh', 'с' => 's', 'ь' => '',
