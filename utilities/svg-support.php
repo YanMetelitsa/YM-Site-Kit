@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
 new YMSK_Utility( 'svg-support', [
 	'is_beta'     => true,
 	'section'     => 'media',
-	'title'       => __( 'SVG Support', 'ym-site-kit' ),
+	'title'       => _x( 'SVG Support', 'Utility Title', 'ym-site-kit' ),
 	'label'       => __( 'Enable SVG support', 'ym-site-kit' ),
 	'description' => __( 'Allows administrators to safely upload SVG files to the media library and use them.', 'ym-site-kit' ),
 	'callback'    => function () {

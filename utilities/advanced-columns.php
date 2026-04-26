@@ -51,7 +51,7 @@ class YMSK_Advanced_Columns_Utility extends YMSK_Utility {
 
 new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 	'section'     => 'administration',
-	'title'       => __( 'Advanced Columns', 'ym-site-kit' ),
+	'title'       => _x( 'Advanced Columns', 'Utility Title', 'ym-site-kit' ),
 	'label'       => __( 'Display additional columns in list tables', 'ym-site-kit' ),
 	'description' => __( 'Adds useful columns to Post, Page, Plugin, and other list tables, and hides some rarely used ones.', 'ym-site-kit' ),
 	'callback'    => function () {
@@ -76,7 +76,6 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 			$rest = array_slice( $columns, 0, -1, true );
 			$last = array_slice( $columns, -1, 1, true );
 			
-			/* translators: File size */
 			return $rest + [ 'ymsk-filesize' => __( 'Size', 'ym-site-kit' ) ] + $last;
 		});
 		add_action( 'manage_media_custom_column', function ( string $column, int $attachment_id ) {
@@ -94,7 +93,6 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 					$file_size           = filesize( $file_path ) / 1024;
 					$formatted_file_size = sprintf( '%s %s',
 						number_format( $file_size, 2 ),
-						/* translators: Kilobytes */
 						esc_html__( 'KB', 'ym-site-kit' ),
 					);
 
@@ -125,7 +123,6 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 			$rest = array_slice( $columns, 0, -1, true );
 			$last = array_slice( $columns, -1, 1, true );
 			
-			/* translators: Page template */
 			return $rest + [ 'ymsk-template' => __( 'Template', 'ym-site-kit' ) ] + $last;
 		});
 		add_action( 'manage_page_posts_custom_column', function ( string $column, int $page_id ) {
@@ -133,7 +130,6 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 				case 'ymsk-template':
 					$template_slug = get_post_meta( $page_id, '_wp_page_template', true );
 					$templates     = wp_get_theme()->get_page_templates();
-					/* translators: Default page template */
 					$template_name = $templates[ $template_slug ] ?? __( 'Default', 'ym-site-kit' );
 					
 					echo esc_html( $template_name );
@@ -162,47 +158,51 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 			}
 		}, 10, 3 );
 
-		// ACF/SCF Field Group.
-		if ( class_exists( 'ACF' ) ) {
-			add_filter( 'manage_acf-field-group_posts_columns', function ( array $columns ) : array {
-				$new_columns = [];
-				
-				foreach ( $columns as $key => $label ) {
-					$new_columns[ $key ] = $label;
+
+		// Columns for Custom Post Types.
+		add_action( 'init', function () {
+			// ACF/SCF Field Group.
+			if ( class_exists( 'ACF' ) ) {
+				add_filter( 'manage_acf-field-group_posts_columns', function ( array $columns ) : array {
+					$new_columns = [];
 					
-					if ( 'title' === $key ) {
-						$new_columns[ 'acf-display-title' ] = __( 'Display Title', 'ym-site-kit' );
+					foreach ( $columns as $key => $label ) {
+						$new_columns[ $key ] = $label;
+						
+						if ( 'title' === $key ) {
+							$new_columns[ 'acf-display-title' ] = _x( 'Display Title', 'noun', 'ym-site-kit' );
+						}
 					}
-				}
-				
-				return $new_columns;
-			}, 20 );
-			add_action( 'manage_acf-field-group_posts_custom_column', function ( string $column, int $group_id ) {
-				$field_group = acf_get_field_group( $group_id ); // phpcs:ignore
-				
-				switch ( $column ) {
-					case 'acf-display-title':
-						echo esc_html( $field_group[ 'display_title' ] ?: $field_group[ 'title' ] );
-						break;
-				}
-			}, 20, 2 );
-		}
+					
+					return $new_columns;
+				}, 20 );
+				add_action( 'manage_acf-field-group_posts_custom_column', function ( string $column, int $group_id ) {
+					$field_group = acf_get_field_group( $group_id ); // phpcs:ignore
+					
+					switch ( $column ) {
+						case 'acf-display-title':
+							echo esc_html( $field_group[ 'display_title' ] ?: $field_group[ 'title' ] );
+							break;
+					}
+				}, 20, 2 );
+			}
 
-		// Post Types with page attributes (order).
-		foreach ( get_post_types_by_support( 'page-attributes' ) as $post_type ) {
-			add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
-				$columns[ 'ymsk-order' ] = __( 'Order', 'ym-site-kit' );
+			// Post Types with page attributes (order).
+			foreach ( get_post_types_by_support( 'page-attributes' ) as $post_type ) {
+				add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
+					$columns[ 'ymsk-order' ] = _x( 'Order', 'sorting', 'ym-site-kit' );
 
-				return $columns;
-			});
-			add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
-				switch ( $column ) {
-					case 'ymsk-order':
-						echo esc_html( get_post_field( 'menu_order', $post_id ) );
-						break;
-				}
-			}, 10, 2 );
-		}
+					return $columns;
+				});
+				add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
+					switch ( $column ) {
+						case 'ymsk-order':
+							echo esc_html( get_post_field( 'menu_order', $post_id ) );
+							break;
+					}
+				}, 10, 2 );
+			}
+		});
 
 
 		// Sets default hidden columns.

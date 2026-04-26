@@ -1,7 +1,7 @@
 === YM Site Kit ===
 Contributors: yanmetelitsa
 Tags: kit, tools, utilities
-Stable tag: 0.1.8
+Stable tag: 0.1.9
 Requires PHP: 7.4
 Requires at least: 6.0
 Tested up to: 6.9

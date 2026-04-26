@@ -4,7 +4,7 @@
  * Plugin Name:       YM Site Kit
  * Description:       Enhance your website with powerful mini‑utilities.
  * Plugin URI:        https://yanmet.com/blog/ym-site-kit-wordpress-plugin-documentation
- * Version:           0.1.8
+ * Version:           0.1.9
  * Requires PHP:      7.4
  * Requires at least: 6.0
  * Tested up to:      6.9
