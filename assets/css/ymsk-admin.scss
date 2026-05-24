@@ -133,8 +133,20 @@ table.wp-list-table {
 	
 	/* WooCommerce Product Terms fix */
 	body.post-type-product &.tags {
+		th.column-thumb {
+			width: 62px;
+			border-radius: 2px;
+		}
+
 		th.column-name.column-primary {
 			width: auto;
+		}
+	}
+
+	/* WooCommerce Order page quantity thead cell fix */
+	.woocommerce_order_items_wrapper {
+		th.quantity.sortable {
+			white-space: nowrap;
 		}
 	}
 

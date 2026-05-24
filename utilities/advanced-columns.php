@@ -55,18 +55,6 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 	'label'       => __( 'Display additional columns in list tables', 'ym-site-kit' ),
 	'description' => __( 'Adds useful columns to Post, Page, Plugin, and other list tables, and hides some rarely used ones.', 'ym-site-kit' ),
 	'callback'    => function () {
-		// Post.
-		add_filter( 'manage_post_posts_columns', function ( array $columns ) : array {
-			return YMSK_Advanced_Columns_Utility::insert_thumbnail_th( $columns );
-		});
-		add_action( 'manage_post_posts_custom_column', function ( string $column, int $post_id ) {
-			switch ( $column ) {
-				case 'ymsk-thumbnail':
-					YMSK_Advanced_Columns_Utility::the_thumbnail_td( $post_id );
-					break;
-			}
-		}, 10, 2 );
-		
 		// Media.
 		add_filter( 'manage_media_columns', function ( array $columns ) : array {
 			if ( ! count( $columns ) ) {
@@ -161,6 +149,36 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 
 		// Columns for Custom Post Types.
 		add_action( 'init', function () {
+			// Post Types with thumbnail support.
+			foreach ( get_post_types_by_support( 'thumbnail' ) as $post_type ) {
+				add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
+					return YMSK_Advanced_Columns_Utility::insert_thumbnail_th( $columns );
+				});
+				add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
+					switch ( $column ) {
+						case 'ymsk-thumbnail':
+							YMSK_Advanced_Columns_Utility::the_thumbnail_td( $post_id );
+							break;
+					}
+				}, 10, 2 );
+			}
+
+			// Post Types with page attributes (order) support.
+			foreach ( get_post_types_by_support( 'page-attributes' ) as $post_type ) {
+				add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
+					$columns[ 'ymsk-order' ] = _x( 'Order', 'sorting', 'ym-site-kit' );
+
+					return $columns;
+				});
+				add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
+					switch ( $column ) {
+						case 'ymsk-order':
+							echo esc_html( get_post_field( 'menu_order', $post_id ) );
+							break;
+					}
+				}, 10, 2 );
+			}
+
 			// ACF/SCF Field Group.
 			if ( class_exists( 'ACF' ) ) {
 				add_filter( 'manage_acf-field-group_posts_columns', function ( array $columns ) : array {
@@ -186,22 +204,6 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 					}
 				}, 20, 2 );
 			}
-
-			// Post Types with page attributes (order).
-			foreach ( get_post_types_by_support( 'page-attributes' ) as $post_type ) {
-				add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
-					$columns[ 'ymsk-order' ] = _x( 'Order', 'sorting', 'ym-site-kit' );
-
-					return $columns;
-				});
-				add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
-					switch ( $column ) {
-						case 'ymsk-order':
-							echo esc_html( get_post_field( 'menu_order', $post_id ) );
-							break;
-					}
-				}, 10, 2 );
-			}
 		});
 
 
@@ -212,6 +214,11 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 			// Posts.
 			if ( 'edit-post' !== $screen->id ) {
 				$hidden[] = 'date';
+			}
+
+			// Page.
+			if ( 'edit-page' === $screen->id ) {
+				$hidden[] = 'ymsk-thumbnail';
 			}
 
 			// Users.

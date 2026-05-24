@@ -103,8 +103,18 @@ table.wp-list-table.tags th.column-posts {
 table.wp-list-table {
   /* WooCommerce Product Terms fix */
 }
+body.post-type-product table.wp-list-table.tags th.column-thumb {
+  width: 62px;
+  border-radius: 2px;
+}
 body.post-type-product table.wp-list-table.tags th.column-name.column-primary {
   width: auto;
+}
+table.wp-list-table {
+  /* WooCommerce Order page quantity thead cell fix */
+}
+table.wp-list-table .woocommerce_order_items_wrapper th.quantity.sortable {
+  white-space: nowrap;
 }
 table.wp-list-table {
   /* Users */

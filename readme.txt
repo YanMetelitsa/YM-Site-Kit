@@ -1,10 +1,10 @@
 === YM Site Kit ===
 Contributors: yanmetelitsa
 Tags: kit, tools, utilities
-Stable tag: 0.1.9
+Stable tag: 0.1.10
 Requires PHP: 7.4
-Requires at least: 6.0
-Tested up to: 6.9
+Requires at least: 4.8
+Tested up to: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -63,35 +63,35 @@ For advanced usage of the plugin, refer to [the official documentation](https://
 == Changelog ==
 
 = 0.1.8 =
-* Fix: **Advanced Columns** improvements
-* Fix: **Maintenance Mode** improvements
-* Fix: **Hide User Fields** improvements
+* **Advanced Columns** improvements
+* **Maintenance Mode** improvements
+* **Hide User Fields** improvements
 
 = 0.1.7 =
-* Fix: **Maintenance Mode** improvements
-* Fix: **Transliterator** improvements
+* **Maintenance Mode** improvements
+* **Transliterator** improvements
 
 = 0.1.6 =
 * New: **SVG Support** Utility
-* Fix: **Advanced Columns** improvements
+* **Advanced Columns** improvements
 * Other small fixes and improvements
 
 = 0.1.5 =
 * New: **SVG Logo** Utility
-* Fix: **Advanced Columns** improvements
-* Fix: **Maintenance Mode** improvements
+* **Advanced Columns** improvements
+* **Maintenance Mode** improvements
 * Other small fixes and improvements
 
 = 0.1.4 =
 * New: **Transliterator** Utility
-* Fix: **Advanced Columns** improvements
+* **Advanced Columns** improvements
 * Other small fixes and improvements
 
 = 0.1.3 =
 * New: **Advanced Columns** Utility
 * New: Utilities Actions and Filters
-* Fix: **Comments Deactivator** improvements
-* Fix: **Media Converter** improvements
+* **Comments Deactivator** improvements
+* **Media Converter** improvements
 * Other small fixes and improvements
 
 = 0.1.2 =
