@@ -151,6 +151,10 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 		add_action( 'init', function () {
 			// Post Types with thumbnail support.
 			foreach ( get_post_types_by_support( 'thumbnail' ) as $post_type ) {
+				if ( in_array( $post_type, [ 'product' ] ) ) {
+					continue;
+				}
+
 				add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
 					return YMSK_Advanced_Columns_Utility::insert_thumbnail_th( $columns );
 				});
