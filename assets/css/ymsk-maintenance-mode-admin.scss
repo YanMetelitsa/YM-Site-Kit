@@ -1,0 +1,27 @@
+@use 'media';
+
+#wpadminbar {
+	#wp-admin-bar-ymsk-maintenance {
+		@include media.ymsk-wp-mobile {
+			display: flex;
+		}
+
+		.ab-item {
+			@include media.ymsk-wp-mobile {
+				width: 52px;
+
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				font-size: 24px;
+			}
+
+			.ab-label {
+				@include media.ymsk-wp-mobile {
+					display: none;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,10 @@
+@mixin ymsk-wp-not-mobile {
+	@media ( min-width: 783px ) {
+		@content;
+	}
+}
+@mixin ymsk-wp-mobile {
+	@media ( max-width: 782px ) {
+		@content;
+	}
+}

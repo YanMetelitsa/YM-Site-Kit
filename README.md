@@ -50,38 +50,18 @@ For advanced usage of the plugin, refer to [the official documentation](https://
 
 # Changelog
 
-
-## 0.1.8
-* **Advanced Columns** improvements
-* **Maintenance Mode** improvements
-* **Hide User Fields** improvements
-
-## 0.1.7
-* **Maintenance Mode** improvements
-* **Transliterator** improvements
-
 ## 0.1.6
 * New: **SVG Support** Utility
-* **Advanced Columns** improvements
-* Other small fixes and improvements
 
 ## 0.1.5
 * New: **SVG Logo** Utility
-* **Advanced Columns** improvements
-* **Maintenance Mode** improvements
-* Other small fixes and improvements
 
 ## 0.1.4
 * New: **Transliterator** Utility
-* **Advanced Columns** improvements
-* Other small fixes and improvements
 
 ## 0.1.3
 * New: **Advanced Columns** Utility
 * New: Utilities Actions and Filters
-* **Comments Deactivator** improvements
-* **Media Converter** improvements
-* Other small fixes and improvements
 
 ## 0.1.2
 * Initial release

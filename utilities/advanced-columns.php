@@ -39,6 +39,14 @@ class YMSK_Advanced_Columns_Utility extends YMSK_Utility {
 	 * @param int|WP_Post|null $post Optional. Post ID or `WP_Post` object. Default is global `$post`.
 	 */
 	public static function the_thumbnail_td ( int|WP_Post|null $post = null ) {
+		if ( ! $post ) {
+			$post = get_post();
+		}
+
+		printf( '<a href="%s">',
+			esc_attr( get_edit_post_link( $post ) ),
+		);
+
 		if ( has_post_thumbnail( $post ) ) {
 			echo get_the_post_thumbnail( $post, [ 40, 40 ] );
 		} else {
@@ -46,6 +54,8 @@ class YMSK_Advanced_Columns_Utility extends YMSK_Utility {
 				'publish' == get_post_status( $post ) ? 'format-image' : 'edit',
 			);
 		}
+
+		echo '</a>';
 	}
 }
 
@@ -147,68 +157,105 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 		}, 10, 3 );
 
 
-		// Columns for Custom Post Types.
-		add_action( 'init', function () {
-			// Post Types with thumbnail support.
-			foreach ( get_post_types_by_support( 'thumbnail' ) as $post_type ) {
-				if ( in_array( $post_type, [ 'product' ] ) ) {
-					continue;
+		// Post Types with thumbnail support.
+		foreach ( get_post_types_by_support( 'thumbnail' ) as $post_type ) {
+			if ( in_array( $post_type, [ 'product' ] ) ) {
+				continue;
+			}
+
+			add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
+				return YMSK_Advanced_Columns_Utility::insert_thumbnail_th( $columns );
+			});
+			add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
+				switch ( $column ) {
+					case 'ymsk-thumbnail':
+						YMSK_Advanced_Columns_Utility::the_thumbnail_td( $post_id );
+						break;
+				}
+			}, 10, 2 );
+		}
+
+		// Post Types with page attributes (order) support.
+		foreach ( get_post_types_by_support( 'page-attributes' ) as $post_type ) {
+			add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
+				$columns[ 'ymsk-order' ] = _x( 'Order', 'sorting', 'ym-site-kit' );
+
+				// Moves Order column before Date.
+				if ( isset( $columns[ 'date' ] ) ) {
+					$date_column = $columns[ 'date' ];
+
+					unset( $columns[ 'date' ] );
+					
+					$new_columns = [];
+
+					foreach ( $columns as $key => $value ) {
+						$new_columns[ $key ] = $value;
+
+						if ( 'ymsk-order' === $key ) {
+							$new_columns[ 'date' ] = $date_column;
+						}
+
+					}
+
+					$columns = $new_columns;
 				}
 
-				add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
-					return YMSK_Advanced_Columns_Utility::insert_thumbnail_th( $columns );
-				});
-				add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
-					switch ( $column ) {
-						case 'ymsk-thumbnail':
-							YMSK_Advanced_Columns_Utility::the_thumbnail_td( $post_id );
-							break;
-					}
-				}, 10, 2 );
-			}
+				return $columns;
+			});
+			add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
+				switch ( $column ) {
+					case 'ymsk-order':
+						echo esc_html( get_post_field( 'menu_order', $post_id ) );
+						break;
+				}
+			}, 10, 2 );
+		}
 
-			// Post Types with page attributes (order) support.
-			foreach ( get_post_types_by_support( 'page-attributes' ) as $post_type ) {
-				add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
-					$columns[ 'ymsk-order' ] = _x( 'Order', 'sorting', 'ym-site-kit' );
+		// WooCommerce.
+		if ( class_exists( 'WooCommerce' ) ) {
+			add_action( 'manage_product_posts_custom_column', function ( string $column, int $product_id ) {
+				global $product;
 
-					return $columns;
-				});
-				add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
-					switch ( $column ) {
-						case 'ymsk-order':
-							echo esc_html( get_post_field( 'menu_order', $post_id ) );
-							break;
-					}
-				}, 10, 2 );
-			}
-
-			// ACF/SCF Field Group.
-			if ( class_exists( 'ACF' ) ) {
-				add_filter( 'manage_acf-field-group_posts_columns', function ( array $columns ) : array {
-					$new_columns = [];
-					
-					foreach ( $columns as $key => $label ) {
-						$new_columns[ $key ] = $label;
-						
-						if ( 'title' === $key ) {
-							$new_columns[ 'acf-display-title' ] = _x( 'Display Title', 'noun', 'ym-site-kit' );
+				switch ( $column ) {
+					case 'thumb':
+						if ( $product->get_gallery_image_ids() ) {
+							printf( '<span class="ymsk-icon dashicons dashicons-format-gallery" title="%s"></span>',
+								esc_attr__( 'Has a gallery', 'ym-site-kit' ),
+							);
 						}
-					}
+
+						break;
+				}
+			}, 20, 2 );
+		}
+
+		// ACF/SCF Field Group.
+		if ( class_exists( 'ACF' ) || class_exists( 'SCF' ) ) {
+			add_filter( 'manage_acf-field-group_posts_columns', function ( array $columns ) : array {
+				$new_columns = [];
+				
+				foreach ( $columns as $key => $label ) {
+					$new_columns[ $key ] = $label;
 					
-					return $new_columns;
-				}, 20 );
-				add_action( 'manage_acf-field-group_posts_custom_column', function ( string $column, int $group_id ) {
-					$field_group = acf_get_field_group( $group_id ); // phpcs:ignore
-					
-					switch ( $column ) {
-						case 'acf-display-title':
-							echo esc_html( $field_group[ 'display_title' ] ?: $field_group[ 'title' ] );
-							break;
+					if ( 'title' === $key ) {
+						$new_columns[ 'acf-display-title' ] = is_textdomain_loaded( 'secure-custom-fields' )
+							? __( 'Display Title', 'secure-custom-fields' )		// phpcs:ignore
+							: __( 'Display Title', 'advanced-custom-fields' );	// phpcs:ignore
 					}
-				}, 20, 2 );
-			}
-		});
+				}
+				
+				return $new_columns;
+			}, 20 );
+			add_action( 'manage_acf-field-group_posts_custom_column', function ( string $column, int $group_id ) {
+				$field_group = acf_get_field_group( $group_id ); // phpcs:ignore
+				
+				switch ( $column ) {
+					case 'acf-display-title':
+						echo esc_html( $field_group[ 'display_title' ] ?: $field_group[ 'title' ] );
+						break;
+				}
+			}, 20, 2 );
+		}
 
 
 		// Sets default hidden columns.

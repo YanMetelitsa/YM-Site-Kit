@@ -101,6 +101,34 @@ class YMSK_Utility {
 
 		// Call Utility if enabled.
 		if ( $this->is_enabled() ) {
+			// Connects site styles and scripts.
+			add_action( 'wp_enqueue_scripts', function () {
+				$frontend_styles_path  = "assets/css/ymsk-{$this->slug}.css";
+				$frontend_scripts_path = "assets/js/ymsk-{$this->slug}.js";
+
+				if ( file_exists( YMSK_ROOT_DIR . $frontend_styles_path ) ) {
+					wp_enqueue_style( "ymsk-{$this->slug}-style", YMSK_ROOT_URI . $frontend_styles_path, [], YMSK_PLUGIN_DATA[ 'Version' ] );
+				}
+
+				if ( file_exists( YMSK_ROOT_DIR . $frontend_scripts_path ) ) {
+					wp_enqueue_script( "ymsk-{$this->slug}-script", YMSK_ROOT_URI . $frontend_scripts_path, [], YMSK_PLUGIN_DATA[ 'Version' ], true );
+				}
+			});
+
+			// Connects admin styles and scripts.
+			add_action( 'admin_enqueue_scripts', function () {
+				$admin_styles_path  = "assets/css/ymsk-{$this->slug}-admin.css";
+				$admin_scripts_path = "assets/js/ymsk-{$this->slug}-admin.js";
+
+				if ( file_exists( YMSK_ROOT_DIR . $admin_styles_path ) ) {
+					wp_enqueue_style( "ymsk-{$this->slug}-admin-style", YMSK_ROOT_URI . $admin_styles_path, [], YMSK_PLUGIN_DATA[ 'Version' ] );
+				}
+
+				if ( file_exists( YMSK_ROOT_DIR . $admin_scripts_path ) ) {
+					wp_enqueue_script( "ymsk-{$this->slug}-admin-script", YMSK_ROOT_URI . $admin_scripts_path, [], YMSK_PLUGIN_DATA[ 'Version' ], true );
+				}
+			});
+
 			$args[ 'callback' ]();
 		}
 
