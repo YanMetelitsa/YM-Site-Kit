@@ -2,6 +2,8 @@
 
 /* Variables */
 :root {
+	--ymsk-thumb-border: 1px solid rgba( 0, 0, 0, .07 );
+
 	--ymsk-thumb-border-radius-small:   2px;
 	--ymsk-thumb-border-radius-primary: 4px;
 }
@@ -47,7 +49,7 @@ table.wp-list-table {
 
 		img {
 			box-sizing: border-box;
-			border: 1px solid rgba( 0, 0, 0, .07 );
+			border: var( --ymsk-thumb-border );
 		}
 		
 		.dashicons {
@@ -84,17 +86,17 @@ table.wp-list-table {
 		}
 	}
 
+	&.tags {
+		th.column-posts {
+			width: 85px;
+		}
+	}
+
 	&.media {
 		td.column-title {
 			img {
 				border-radius: var( --ymsk-thumb-border-radius-primary );
 			}
-		}
-	}
-
-	&.tags {
-		th.column-posts {
-			width: 85px;
 		}
 	}
 
@@ -116,7 +118,7 @@ table.wp-list-table {
 
 
 	/* WooCommerce */
-	body.woocommerce-admin-page.post-type-product &.posts {
+	body.post-type-product &.posts {
 		th.column-thumb {
 			width: 40px;
 			opacity: 0.75;
@@ -130,7 +132,7 @@ table.wp-list-table {
 			
 			img {
 				border-radius: var( --ymsk-thumb-border-radius-small );
-				border: 1px solid rgba( 0, 0, 0, .07 );
+				border: var( --ymsk-thumb-border );
 			}
 
 			.ymsk-icon {
@@ -168,12 +170,13 @@ table.wp-list-table {
 		}
 	}
 	
-	body.woocommerce-admin-page.post-type-product &.tags {
+	body.post-type-product &.tags {
 		th.column-thumb {
 			width: 62px;
 		}
 		td.column-thumb {
 			img {
+				border: var( --ymsk-thumb-border );
 				border-radius: var( --ymsk-thumb-border-radius-small );
 			}
 		}
