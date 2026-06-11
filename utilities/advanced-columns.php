@@ -157,59 +157,63 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 		}, 10, 3 );
 
 
-		// Post Types with thumbnail support.
-		foreach ( get_post_types_by_support( 'thumbnail' ) as $post_type ) {
-			if ( in_array( $post_type, [ 'product' ] ) ) {
-				continue;
-			}
-
-			add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
-				return YMSK_Advanced_Columns_Utility::insert_thumbnail_th( $columns );
-			});
-			add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
-				switch ( $column ) {
-					case 'ymsk-thumbnail':
-						YMSK_Advanced_Columns_Utility::the_thumbnail_td( $post_id );
-						break;
+		// Init action is required for `get_post_types_by_support()` functions.
+		add_action( 'init', function () {
+			// Post Types with thumbnail support.
+			foreach ( get_post_types_by_support( 'thumbnail' ) as $post_type ) {
+				if ( in_array( $post_type, [ 'product' ] ) ) {
+					continue;
 				}
-			}, 10, 2 );
-		}
-
-		// Post Types with page attributes (order) support.
-		foreach ( get_post_types_by_support( 'page-attributes' ) as $post_type ) {
-			add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
-				$columns[ 'ymsk-order' ] = _x( 'Order', 'sorting', 'ym-site-kit' );
-
-				// Moves Order column before Date.
-				if ( isset( $columns[ 'date' ] ) ) {
-					$date_column = $columns[ 'date' ];
-
-					unset( $columns[ 'date' ] );
-					
-					$new_columns = [];
-
-					foreach ( $columns as $key => $value ) {
-						$new_columns[ $key ] = $value;
-
-						if ( 'ymsk-order' === $key ) {
-							$new_columns[ 'date' ] = $date_column;
-						}
-
+	
+				add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
+					return YMSK_Advanced_Columns_Utility::insert_thumbnail_th( $columns );
+				});
+				add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
+					switch ( $column ) {
+						case 'ymsk-thumbnail':
+							YMSK_Advanced_Columns_Utility::the_thumbnail_td( $post_id );
+							break;
 					}
+				}, 10, 2 );
+			}
+	
+			// Post Types with page attributes (order) support.
+			foreach ( get_post_types_by_support( 'page-attributes' ) as $post_type ) {
+				add_filter( "manage_{$post_type}_posts_columns", function ( array $columns ) : array {
+					$columns[ 'ymsk-order' ] = _x( 'Order', 'sorting', 'ym-site-kit' );
+	
+					// Moves Order column before Date.
+					if ( isset( $columns[ 'date' ] ) ) {
+						$date_column = $columns[ 'date' ];
+	
+						unset( $columns[ 'date' ] );
+						
+						$new_columns = [];
+	
+						foreach ( $columns as $key => $value ) {
+							$new_columns[ $key ] = $value;
+	
+							if ( 'ymsk-order' === $key ) {
+								$new_columns[ 'date' ] = $date_column;
+							}
+	
+						}
+	
+						$columns = $new_columns;
+					}
+	
+					return $columns;
+				});
+				add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
+					switch ( $column ) {
+						case 'ymsk-order':
+							echo esc_html( get_post_field( 'menu_order', $post_id ) );
+							break;
+					}
+				}, 10, 2 );
+			}
+		});
 
-					$columns = $new_columns;
-				}
-
-				return $columns;
-			});
-			add_action( "manage_{$post_type}_posts_custom_column", function ( string $column, int $post_id ) {
-				switch ( $column ) {
-					case 'ymsk-order':
-						echo esc_html( get_post_field( 'menu_order', $post_id ) );
-						break;
-				}
-			}, 10, 2 );
-		}
 
 		// WooCommerce.
 		if ( class_exists( 'WooCommerce' ) ) {
