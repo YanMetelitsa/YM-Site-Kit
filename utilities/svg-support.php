@@ -24,8 +24,8 @@ new YMSK_Utility( 'svg-support', [
 				? in_array( $real_mime, [ 'image/svg', 'image/svg+xml' ] )
 				: ( '.svg' === strtolower( substr( $filename, -4 ) ) );
 
-			if ( $is_svg ){
-				if ( current_user_can( 'manage_options' ) ){
+			if ( $is_svg ) {
+				if ( current_user_can( 'manage_options' ) ) {
 					$data[ 'ext' ]  = 'svg';
 					$data[ 'type' ] = 'image/svg+xml';
 				} else {

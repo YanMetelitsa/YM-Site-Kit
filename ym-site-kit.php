@@ -4,10 +4,10 @@
  * Plugin Name:       YM Site Kit
  * Description:       Enhance your website with powerful mini‑utilities.
  * Plugin URI:        https://yanmet.com/blog/ym-site-kit-wordpress-plugin-documentation
- * Version:           0.1.11
+ * Version:           0.2.0
  * Requires PHP:      7.4
  * Requires at least: 4.8
- * Tested up to:      7.0
+ * Tested up to:      7.1
  * Author:            Yan Metelitsa
  * Author URI:        https://yanmet.com/
  * License:           GPLv3
@@ -81,7 +81,7 @@ class YMSK_Plugin {
 		});
 
 		// Adds Utilities page.
-		add_action( 'admin_menu', function (){
+		add_action( 'admin_menu', function () {
 			add_management_page(
 				__( 'Utilities', 'ym-site-kit' ),
 				__( 'Utilities', 'ym-site-kit' ),
@@ -112,10 +112,24 @@ class YMSK_Plugin {
 		
 		// Registers Plugin settings.
 		add_action( 'admin_init', function () {
-			add_settings_section( 'default', '', fn () => null, 'ymsk-utilities' );
-			add_settings_section( 'administration', _x( 'Administration', 'Deverbal noun', 'ym-site-kit' ), fn () => null, 'ymsk-utilities' );
-			add_settings_section( 'media', __( 'Media', 'ym-site-kit' ), fn () => null, 'ymsk-utilities' );
+			// Register sections.
+			add_settings_section( 'default', '',
+				fn () => null, 'ymsk-utilities',
+			);
+			add_settings_section( 'administration', _x( 'Administration', 'Deverbal noun', 'ym-site-kit' ),
+				fn () => null, 'ymsk-utilities',
+			);
+			add_settings_section( 'media', __( 'Media', 'ym-site-kit' ),
+				fn () => null, 'ymsk-utilities',
+			);
+			add_settings_section( 'permanent', __( 'Permanent', 'ym-site-kit' ), function () {
+				printf( '<p>%s</p>',
+					esc_html__( 'Permanent Utilities do not require activation and are always available as long as the plugin is active.','ym-site-kit' )
+				);
+			}, 'ymsk-utilities' );
 
+
+			// Register settings.
 			register_setting( 'ymsk-settings', 'ymsk-enabled-utilities', [
 				'default'           => [],
 				'sanitize_callback' => function ( $input ) : array {

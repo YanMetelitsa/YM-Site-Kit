@@ -40,6 +40,10 @@ Allows administrators to safely upload SVG files to the media library and use th
 
 Automatically replaces certain symbols in Post and Term slugs on save.
 
+### 🧾 **Logger**
+
+Provides built-in functionality for simple data logging.
+
 ## Upcoming Features
 
 The plugin continues to evolve and gain new tools, adding only what is truly necessary for most sites based on experience from dozens of WordPress projects.
@@ -49,6 +53,10 @@ The plugin continues to evolve and gain new tools, adding only what is truly nec
 For advanced usage of the plugin, refer to [the official documentation](https://yanmet.com/blog/ym-site-kit-wordpress-plugin-documentation).
 
 # Changelog
+
+## 0.2.0
+* New: Permanent Utilities
+* New: **Logger** Utility
 
 ## 0.1.6
 * New: **SVG Support** Utility

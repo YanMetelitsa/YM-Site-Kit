@@ -231,6 +231,24 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 						break;
 				}
 			}, 20, 2 );
+
+			// Fixes WooCommerce WordPress 7.0 admin styles.
+			add_action( 'admin_enqueue_scripts', function () {
+				global $wp_version;
+
+				if ( version_compare( $wp_version, '7.0', '>=' ) ) {
+					wp_add_inline_style( 'ymsk-advanced-columns-admin-style', "
+						/* ACF Meta Box before Product Description */
+						#acf_after_title-sortables.meta-box-sortables:has( > #woocommerce-product-data.postbox ) {
+							margin-bottom: 20px !important;
+						}
+						/* Product Description */
+						.post-type-product #postdivrich.woocommerce-product-description {
+							margin: 0 !important;
+						}
+					");
+				}
+			});
 		}
 
 		// ACF/SCF Field Group.
@@ -259,11 +277,54 @@ new YMSK_Advanced_Columns_Utility( 'advanced-columns', [
 						break;
 				}
 			}, 20, 2 );
+
+			// Fixes ACF WordPress 7.0 admin styles.
+			add_action( 'admin_enqueue_scripts', function () {
+				global $wp_version;
+
+				if ( version_compare( $wp_version, '7.0', '>=' ) ) {
+					wp_add_inline_style( 'ymsk-advanced-columns-admin-style', "
+						/* Field Settings */
+						.acf-field-setting-wrapper .acf-input-wrap,
+						.acf-field-setting-wrapper .acf-input-wrap input {
+							height: 100%;
+						}
+
+
+						/* Button Group */
+						.acf-button-group label {
+							min-height: 40px;
+							box-sizing: border-box;
+
+							line-height: 2.1;
+						}
+
+						/* True / False */
+						body:not( .acf-internal-post-type ) .acf-switch {
+							height: 40px !important;
+							box-sizing: border-box;
+						}
+						body:not( .acf-internal-post-type ) .acf-switch span {
+							line-height: 28px !important;
+						}
+
+						/* Color Picker */
+						.wp-picker-container .wp-color-result.button {
+							min-height: 40px !important;
+						}
+						.wp-picker-container .wp-color-result.button .wp-color-result-text {
+							min-height: 39px !important;
+
+							line-height: 3.4;
+						}
+					");
+				}
+			});
 		}
 
 
 		// Sets default hidden columns.
-		add_filter( 'default_hidden_columns', function( array $hidden, \WP_Screen $screen ) : array {
+		add_filter( 'default_hidden_columns', function ( array $hidden, \WP_Screen $screen ) : array {
 			$hidden[] = 'ymsk-order';
 			
 			// Posts.

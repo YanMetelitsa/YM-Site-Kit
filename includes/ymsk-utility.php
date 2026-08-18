@@ -23,6 +23,15 @@ class YMSK_Utility {
 	public string $is_beta;
 
 	/**
+	 * Is permanent Utility.
+	 * 
+	 * @since 0.2.0
+	 * 
+	 * @var bool
+	 */
+	public string $is_permanent;
+
+	/**
 	 * Utility section on settings screen.
 	 * 
 	 * @since 0.1.6
@@ -68,33 +77,40 @@ class YMSK_Utility {
 	 * @param array  $args {
 	 * 		Utility arguments.
 	 * 
-	 * 		@type bool    $is_beta     Is beta version.
-	 * 		@type string  $section     Utility section on settings screen.
-	 * 		@type string  $title       Utility title.
-	 * 		@type string  $label       Utility label.
-	 * 		@type string  $description Utility description.
-	 * 		@type Closure $callback    Utility callback.
+	 * 		@type bool    $is_beta      Is beta version. Default `false`.
+	 * 		@type bool    $is_permanent Is permanent Utility. Default `false`.
+	 * 		@type string  $section      Utility section on settings screen.
+	 * 		@type string  $title        Utility title.
+	 * 		@type string  $label        Utility label.
+	 * 		@type string  $description  Utility description.
+	 * 		@type Closure $callback     Utility callback.
 	 * }
 	 */
 	public function __construct ( string $slug, array $args = [] ) {
 		// Set default arguments.
 		$args = wp_parse_args( $args, [
-			'is_beta'     => false,
-			'section'     => 'default',
-			'title'       => '',
-			'label'       => '',
-			'description' => '',
-			'callback'    => fn () => null,
+			'is_beta'      => false,
+			'is_permanent' => false,
+			'section'      => 'default',
+			'title'        => '',
+			'label'        => '',
+			'description'  => '',
+			'callback'     => fn () => null,
 		]);
 
 		// Set Utility parameters.
-		$this->slug        = $slug;
-		$this->is_beta     = $args[ 'is_beta' ];
-		$this->section     = $args[ 'section' ];
-		$this->title       = $args[ 'title' ] . ( $this->is_beta ? ' <sup>&beta;</sup>' : '' );
-		$this->label       = $args[ 'label' ];
-		$this->description = $args[ 'description' ];
-		$this->callback    = $args[ 'callback' ];
+		$this->slug         = $slug;
+		$this->is_beta      = $args[ 'is_beta' ];
+		$this->is_permanent = $args[ 'is_permanent' ];
+		$this->section      = $args[ 'section' ];
+		$this->title        = $args[ 'title' ] . ( $this->is_beta ? ' <sup title="Beta">&beta;</sup>' : '' );
+		$this->label        = $args[ 'label' ];
+		$this->description  = $args[ 'description' ];
+		$this->callback     = $args[ 'callback' ];
+
+		if ( $this->is_permanent ) {
+			$this->section = $args[ 'section' ] = 'permanent';
+		}
 
 		// Push Utility to Plugin static list.
 		YMSK_Plugin::$utilities[ $this->slug ] = $this;
@@ -151,12 +167,13 @@ class YMSK_Utility {
 				'ymsk-utilities',
 				$this->section,
 				[
-					'slug'        => $this->slug,
-					'title'       => $this->title,
-					'label'       => $this->label,
-					'label_for'   => $option_id,
-					'description' => $this->description,
-					'is_enabled'  => $this->is_enabled(),
+					'slug'         => $this->slug,
+					'title'        => $this->title,
+					'label'        => $this->label,
+					'label_for'    => $option_id,
+					'description'  => $this->description,
+					'is_permanent' => $this->is_permanent,
+					'is_enabled'   => $this->is_enabled(),
 				],
 			);
 		});
@@ -168,6 +185,10 @@ class YMSK_Utility {
 	 * @return bool
 	 */
 	public function is_enabled () : bool {
+		if ( $this->is_permanent ) {
+			return true;
+		}
+
 		return in_array( $this->slug, YMSK_Plugin::get_enabled_utilities() );
 	}
 }
