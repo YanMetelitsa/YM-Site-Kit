@@ -16,7 +16,7 @@ Adds useful columns to Post, Page, Plugin, and other list tables, and hides some
 
 Turns off the discussion system and hides comment-related elements in the admin interface.
 
-### ⿻ **Duplicator**
+### 📑 **Duplicator**
 
 Allows to create copies of pages and posts.
 

@@ -99,11 +99,14 @@ class YMSK_Utility {
 		]);
 
 		// Set Utility parameters.
-		$this->slug         = $slug;
-		$this->is_beta      = $args[ 'is_beta' ];
+		$this->slug    = $slug;
+		$this->is_beta = $args[ 'is_beta' ];
+
+		$beta_label = $this->is_beta ? sprintf( ' <sup title="%s">&beta;</sup>', __( 'Beta', 'ym-site-kit' ) ) : '';
+
 		$this->is_permanent = $args[ 'is_permanent' ];
 		$this->section      = $args[ 'section' ];
-		$this->title        = $args[ 'title' ] . ( $this->is_beta ? ' <sup title="Beta">&beta;</sup>' : '' );
+		$this->title        = sprintf( '%s%s', $args[ 'title' ], $beta_label );
 		$this->label        = $args[ 'label' ];
 		$this->description  = $args[ 'description' ];
 		$this->callback     = $args[ 'callback' ];

@@ -12,12 +12,26 @@ class YMSK_Duplicator extends YMSK_Utility {
 	 * @return array
 	 */
 	public static function row_actions_filter ( array $actions, \WP_Post $post ) : array {
+		// Check capability.
 		if ( ! current_user_can( 'edit_post', $post->ID ) ) {
 			return $actions;
 		}
 
+		// Check Post status.
 		if ( 'trash' === get_post_status( $post ) ) {
 			return $actions;
+		}
+
+		// Check WooCommerce Product.
+		if ( class_exists( 'WooCommerce' ) && 'product' === $post->post_type ) {
+			return $actions;
+		}
+
+		// Check similar action.
+		foreach ( $actions as $key => $value ) {
+			if ( str_contains( $key, 'duplicate' ) ) {
+				return $actions;
+			}
 		}
 
 		$actions[ 'ymsk-duplicate'] = sprintf( '<a href="%s">%s</a>',
@@ -37,31 +51,31 @@ class YMSK_Duplicator extends YMSK_Utility {
 	public static function handle_duplicate_action () {
 		// Check parameters.
 		if ( ! isset( $_GET[ '_wpnonce' ] ) || ! isset( $_GET[ 'post_id' ] ) ) {
-			wp_die();
+			wp_die( __( 'Missing parameters.', 'ym-site-kit' ) );
 		}
 		
 		$post_id = intval( $_GET[ 'post_id' ] );
 		
 		// Check nonce.
 		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET[ '_wpnonce' ] ) ), "ymsk_duplicate_{$post_id}" ) ) {
-			wp_die();
+			wp_die( __( 'Invalid nonce.', 'ym-site-kit' ) );
 		}
 		
 		// Check capability.
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			wp_die();
+			wp_die( __( 'You don\'t have permission to duplicate this post.', 'ym-site-kit' ) );
 		}
 		
 		$original = get_post( $post_id );
 
 		if ( ! $original ) {
-			wp_die();
+			wp_die( __( 'Original post not found.', 'ym-site-kit' ) );
 		}
 		
 		$new_post_id = wp_insert_post([
 			'post_type'      => $original->post_type,
 
-			'post_title'     => sprintf( '%s (%s)', $original->post_title, __( 'copy', 'ym-site-kit' ) ),
+			'post_title'     => sprintf( '%s (%s)', $original->post_title, _x( 'copy', 'noun', 'ym-site-kit' ) ),
 			'post_content'   => $original->post_content,
 			'post_excerpt'   => $original->post_excerpt,
 
@@ -110,8 +124,8 @@ new YMSK_Duplicator( 'duplicator', [
 	'description' => __( 'Allows to create copies of pages and posts.', 'ym-site-kit' ),
 	'callback'    => function () {
 		// Adds action to Post / Page row.
-		add_filter( 'post_row_actions', [ 'YMSK_Duplicator', 'row_actions_filter' ], 10, 2 );
-		add_filter( 'page_row_actions', [ 'YMSK_Duplicator', 'row_actions_filter' ], 10, 2 );
+		add_filter( 'post_row_actions', [ 'YMSK_Duplicator', 'row_actions_filter' ], 20, 2 );
+		add_filter( 'page_row_actions', [ 'YMSK_Duplicator', 'row_actions_filter' ], 20, 2 );
 
 		// Provides duplicate event.
 		add_action( 'admin_post_ymsk_duplicate', [ 'YMSK_Duplicator', 'handle_duplicate_action' ] );

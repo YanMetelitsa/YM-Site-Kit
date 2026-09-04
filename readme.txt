@@ -1,7 +1,7 @@
 === YM Site Kit ===
 Contributors: yanmetelitsa
 Tags: kit, tools, utilities
-Stable tag: 0.3.0
+Stable tag: 0.3.1
 Requires PHP: 7.4
 Requires at least: 4.8
 Tested up to: 7.1
@@ -28,7 +28,7 @@ Adds useful columns to Post, Page, Plugin, and other list tables, and hides some
 
 Turns off the discussion system and hides comment-related elements in the admin interface.
 
-⿻ **Duplicator**
+📑 **Duplicator**
 
 Allows to create copies of pages and posts.
 
@@ -70,7 +70,8 @@ For advanced usage of the plugin, refer to [the official documentation](https://
 
 == Screenshots ==
 
-1. Maintenance page
+1. Utilities page
+2. Maintenance page
 
 == Changelog ==
 
