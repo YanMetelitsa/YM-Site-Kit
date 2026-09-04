@@ -60,8 +60,10 @@ table.wp-list-table {
 	}
 		tr.is-expanded td.column-ymsk-thumbnail {
 			@include media.ymsk-wp-mobile {
-				padding: 8px 8px 2px 35%;
+				width: 100%;
+				padding: 3px 8px 8px 35%;
 
+				order: 1;
 				display: flex !important;
 				align-items: center;
 			}

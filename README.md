@@ -8,37 +8,41 @@ It is lightweight and includes only what is necessary for most sites. You can en
 
 ## Utilities
 
-### ℹ️ Advanced Columns
+### ℹ️ **Advanced Columns**
 
 Adds useful columns to Post, Page, Plugin, and other list tables, and hides some rarely used ones.
 
-### 💬 Comments Deactivator
+### 💬 **Comments Deactivator**
 
 Turns off the discussion system and hides comment-related elements in the admin interface.
 
-### 👤 Hide User Fields
+### ⿻ **Duplicator**
+
+Allows to create copies of pages and posts.
+
+### 👤 **Hide User Fields**
 
 Hides rarely used fields on the Edit User screen to simplify the interface.
 
-### 🛠️ Maintenance Mode
+### 🛠️ **Maintenance Mode**
 
 Allows only administrators to access the public part of the site.
 
-### 🖼️ Media Converter
+### 🔤 **Transliterator**
+
+Automatically replaces certain symbols in Post and Term slugs on save.
+
+### 🖼️ **Media Converter**
 
 Automatically compresses and converts images to WebP upon upload.
 
-### ®️ SVG Logo
+### ®️ **SVG Logo**
 
 Replaces the `<img>` element with `<svg>` when using `get_custom_logo()` function and the logo file is an SVG.
 
-### 📐 SVG Support
+### 📐 **SVG Support**
 
 Allows administrators to safely upload SVG files to the media library and use them.
-
-### 🔤 Transliterator
-
-Automatically replaces certain symbols in Post and Term slugs on save.
 
 ### 🧾 **Logger**
 
@@ -54,6 +58,9 @@ For advanced usage of the plugin, refer to [the official documentation](https://
 
 # Changelog
 
+## 0.3.0
+* New: **Duplicator** Utility
+
 ## 0.2.0
 * New: Permanent Utilities
 * New: **Logger** Utility
@@ -68,8 +75,8 @@ For advanced usage of the plugin, refer to [the official documentation](https://
 * New: **Transliterator** Utility
 
 ## 0.1.3
-* New: **Advanced Columns** Utility
 * New: Utilities Actions and Filters
+* New: **Advanced Columns** Utility
 
 ## 0.1.2
 * Initial release

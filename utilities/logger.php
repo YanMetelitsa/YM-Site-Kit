@@ -142,7 +142,6 @@ new YMSK_Logger( 'logger', [
 	'is_permanent' => true,
 	'section'      => 'permanent',
 	'title'        => _x( 'Logger', 'Utility Title', 'ym-site-kit' ),
-	'label'        => __( 'Enable Logger', 'ym-site-kit' ),
 	'description'  => sprintf( '%s %s %s',
 		/* translators: %s – YMSK_Logger */
 		sprintf( __( 'Provides built-in functionality for simple data logging via the %s class.', 'ym-site-kit' ),
@@ -153,7 +152,7 @@ new YMSK_Logger( 'logger', [
 			__( 'Learn more', 'ym-site-kit' ),
 		),
 		sprintf( '<br>%s: %s.',
-			__( 'Show logs', 'ym-site-kit' ),
+			__( 'View logs', 'ym-site-kit' ),
 			implode( ', ', array_map( function ( string $file_name ) {
 				return sprintf( '<a href="%s" target="_blank">%s</a>',
 					YMSK_Logger::get_file_uri( $file_name ),

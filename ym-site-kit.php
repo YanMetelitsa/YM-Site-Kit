@@ -4,7 +4,7 @@
  * Plugin Name:       YM Site Kit
  * Description:       Enhance your website with powerful mini‑utilities.
  * Plugin URI:        https://yanmet.com/blog/ym-site-kit-wordpress-plugin-documentation
- * Version:           0.2.0
+ * Version:           0.3.0
  * Requires PHP:      7.4
  * Requires at least: 4.8
  * Tested up to:      7.1
@@ -122,7 +122,7 @@ class YMSK_Plugin {
 			add_settings_section( 'media', __( 'Media', 'ym-site-kit' ),
 				fn () => null, 'ymsk-utilities',
 			);
-			add_settings_section( 'permanent', __( 'Permanent', 'ym-site-kit' ), function () {
+			add_settings_section( 'permanent', _x( 'Permanent', 'Utilities section title', 'ym-site-kit' ), function () {
 				printf( '<p>%s</p>',
 					esc_html__( 'Permanent Utilities do not require activation and are always available as long as the plugin is active.','ym-site-kit' )
 				);

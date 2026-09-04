@@ -10,8 +10,6 @@ new YMSK_Utility( 'maintenance-mode', [
 	'callback'    => function () {
 		// Redirects non-admin User to Maintenance template.
 		add_action( 'template_redirect', function () {
-			$request_uri = esc_url_raw( wp_unslash( $_SERVER[ 'REQUEST_URI' ] ?? '' ) );
-
 			// Allow administrators.
 			if ( current_user_can( 'manage_options' ) ) {
 				return;

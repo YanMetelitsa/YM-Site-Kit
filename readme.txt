@@ -1,7 +1,7 @@
 === YM Site Kit ===
 Contributors: yanmetelitsa
 Tags: kit, tools, utilities
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 Requires PHP: 7.4
 Requires at least: 4.8
 Tested up to: 7.1
@@ -28,6 +28,10 @@ Adds useful columns to Post, Page, Plugin, and other list tables, and hides some
 
 Turns off the discussion system and hides comment-related elements in the admin interface.
 
+⿻ **Duplicator**
+
+Allows to create copies of pages and posts.
+
 👤 **Hide User Fields**
 
 Hides rarely used fields on the Edit User screen to simplify the interface.
@@ -35,6 +39,10 @@ Hides rarely used fields on the Edit User screen to simplify the interface.
 🛠️ **Maintenance Mode**
 
 Allows only administrators to access the public part of the site.
+
+🔤 **Transliterator**
+
+Automatically replaces certain symbols in Post and Term slugs on save.
 
 🖼️ **Media Converter**
 
@@ -48,10 +56,6 @@ Replaces the `<img>` element with `<svg>` when using `get_custom_logo()` functio
 
 Allows administrators to safely upload SVG files to the media library and use them.
 
-🔤 **Transliterator**
-
-Automatically replaces certain symbols in Post and Term slugs on save.
-
 🧾 **Logger**
 
 Provides built-in functionality for simple data logging.
@@ -64,7 +68,14 @@ The plugin continues to evolve and gain new tools, adding only what is truly nec
 
 For advanced usage of the plugin, refer to [the official documentation](https://yanmet.com/blog/ym-site-kit-wordpress-plugin-documentation).
 
+== Screenshots ==
+
+1. Maintenance page
+
 == Changelog ==
+
+= 0.3.0 =
+* New: **Duplicator** Utility
 
 = 0.2.0 =
 * New: Permanent Utilities
@@ -80,8 +91,8 @@ For advanced usage of the plugin, refer to [the official documentation](https://
 * New: **Transliterator** Utility
 
 = 0.1.3 =
-* New: **Advanced Columns** Utility
 * New: Utilities Actions and Filters
+* New: **Advanced Columns** Utility
 
 = 0.1.2 =
 * Initial release
