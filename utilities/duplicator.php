@@ -29,7 +29,7 @@ class YMSK_Duplicator extends YMSK_Utility {
 
 		// Check similar action.
 		foreach ( $actions as $key => $value ) {
-			if ( str_contains( $key, 'duplicate' ) ) {
+			if ( strpos( $key, 'duplicate' ) !== false ) {
 				return $actions;
 			}
 		}
@@ -51,25 +51,25 @@ class YMSK_Duplicator extends YMSK_Utility {
 	public static function handle_duplicate_action () {
 		// Check parameters.
 		if ( ! isset( $_GET[ '_wpnonce' ] ) || ! isset( $_GET[ 'post_id' ] ) ) {
-			wp_die( __( 'Missing parameters.', 'ym-site-kit' ) );
+			wp_die( esc_html__( 'Missing parameters.', 'ym-site-kit' ) );
 		}
 		
 		$post_id = intval( $_GET[ 'post_id' ] );
 		
 		// Check nonce.
 		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET[ '_wpnonce' ] ) ), "ymsk_duplicate_{$post_id}" ) ) {
-			wp_die( __( 'Invalid nonce.', 'ym-site-kit' ) );
+			wp_die( esc_html__( 'Invalid nonce.', 'ym-site-kit' ) );
 		}
 		
 		// Check capability.
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			wp_die( __( 'You don\'t have permission to duplicate this post.', 'ym-site-kit' ) );
+			wp_die( esc_html__( 'You don\'t have permission to duplicate this post.', 'ym-site-kit' ) );
 		}
 		
 		$original = get_post( $post_id );
 
 		if ( ! $original ) {
-			wp_die( __( 'Original post not found.', 'ym-site-kit' ) );
+			wp_die( esc_html__( 'Original post not found.', 'ym-site-kit' ) );
 		}
 		
 		$new_post_id = wp_insert_post([
