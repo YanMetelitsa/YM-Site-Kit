@@ -14,7 +14,7 @@ new YMSK_Utility( 'hide-user-fields', [
 
 			if ( $screen && in_array( $screen->base, [ 'profile', 'user-edit' ] ) ) {
 				// CSS.
-				wp_add_inline_style( 'ymsk-admin-style', sprintf( 'body:not( .ymsk-show-user-hidden-fields ) %s { display: none }',
+				wp_add_inline_style( 'wp-admin', sprintf( 'body:not( .ymsk-show-user-hidden-fields ) %s { display: none }',
 					implode( ', body:not( .ymsk-show-user-hidden-fields ) ', [
 						'.form-table tr.user-syntax-highlighting-wrap',
 						'.form-table tr.user-admin-color-wrap',
