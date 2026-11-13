@@ -45,7 +45,9 @@ new YMSK_Transliterator_Utility( 'transliterator', [
 	'description' => __( 'Automatically replaces certain symbols in Post and Term slugs on save.', 'ym-site-kit' ),
 	'callback'    => function () {
 		// Replaces some characters with Latin ones.
-		add_filter( 'sanitize_title', function ( string $title, string $raw_title = '', string $context = '' ) : string {
+		add_filter( 'sanitize_title', function ( ?string $title, ?string $raw_title = '', string $context = '' ) : ?string {
+			if ( empty( $title ) ) return $title;
+
 			$title = urldecode( $title );
 			$title = mb_strtolower( $title );
 			$title = strtr( $title, YMSK_Transliterator_Utility::get_translit_map() );

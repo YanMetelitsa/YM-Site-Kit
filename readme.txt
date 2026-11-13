@@ -1,9 +1,9 @@
 === YM Site Kit ===
 Contributors: yanmetelitsa
 Tags: kit, tools, utilities
-Stable tag: 0.3.1
+Stable tag: 0.3.2
 Requires PHP: 7.4
-Requires at least: 4.8
+Requires at least: 4.9
 Tested up to: 7.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -75,25 +75,61 @@ For advanced usage of the plugin, refer to [the official documentation](https://
 
 == Changelog ==
 
+= 0.3.2 =
+
+*Added*
+
+* Viewing log files via pop-up window
+* [`ymsk_maintenance_mode_display_placeholder`](https://yanmet.com/blog/ym-site-kit-wordpress-plugin-documentation#ymsk_maintenance_mode_display_placeholder) filter
+
+*Changed*
+
+* Image conversion algorithm
+
+*Fixed*
+
+* Transliteration hook argument type bug
+* Log files security
+* Small fixes and improvements
+
 = 0.3.0 =
-* New: **Duplicator** Utility
+
+*Added*
+
+* **Duplicator** Utility
 
 = 0.2.0 =
-* New: Permanent Utilities
-* New: **Logger** Utility
+
+*Added*
+
+* Permanent Utilities
+* **Logger** Utility
 
 = 0.1.6 =
-* New: **SVG Support** Utility
+
+*Added*
+
+* **SVG Support** Utility
 
 = 0.1.5 =
-* New: **SVG Logo** Utility
+
+*Added*
+
+* **SVG Logo** Utility
 
 = 0.1.4 =
-* New: **Transliterator** Utility
+
+*Added*
+
+* **Transliterator** Utility
 
 = 0.1.3 =
-* New: Utilities Actions and Filters
-* New: **Advanced Columns** Utility
+
+*Added*
+
+* **Advanced Columns** Utility
+* Utilities Actions and Filters
 
 = 0.1.2 =
+
 * Initial release

@@ -35,19 +35,25 @@ new YMSK_Utility( 'maintenance-mode', [
 				return;
 			}
 
+			// Set headers.
 			status_header( 503 );
 			header( 'Retry-After: 3600' );
 			nocache_headers();
 
-			$template_path = YMSK_ROOT_DIR . 'parts/maintenance.php';
+			// Display placeholder.
+			$display_placeholder = apply_filters( 'ymsk_maintenance_mode_display_placeholder', true );
 
-			if ( file_exists( get_theme_file_path( 'maintenance.php' ) ) ) {
-				$template_path = get_theme_file_path( 'maintenance.php' );
+			if ( $display_placeholder ) {
+				$template_path = YMSK_ROOT_DIR . 'parts/maintenance.php';
+	
+				if ( file_exists( get_theme_file_path( 'maintenance.php' ) ) ) {
+					$template_path = get_theme_file_path( 'maintenance.php' );
+				}
+	
+				load_template( $template_path );
+	
+				exit;
 			}
-
-			load_template( $template_path );
-
-			exit;
 		});
 
 		// Adds admin bar notification.

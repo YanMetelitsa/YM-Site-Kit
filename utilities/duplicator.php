@@ -29,6 +29,7 @@ class YMSK_Duplicator extends YMSK_Utility {
 
 		// Check similar action.
 		foreach ( $actions as $key => $value ) {
+			// str_contains( $key, 'duplicate' )
 			if ( strpos( $key, 'duplicate' ) !== false ) {
 				return $actions;
 			}

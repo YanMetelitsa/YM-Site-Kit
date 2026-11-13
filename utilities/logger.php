@@ -25,13 +25,20 @@ class YMSK_Logger extends YMSK_Utility {
 		return in_array( $file_name, self::get_allowed_files() );
 	}
 
+
 	/**
 	 * Returns log files extension.
 	 *
 	 * @return string
 	 */
 	public static function get_file_extension () : string {
-		return apply_filters( 'ymsk_logger_file_extension', 'txt' );
+		$extension = apply_filters( 'ymsk_logger_file_extension', 'txt' );
+
+		if ( ! in_array( $extension, [ 'txt', 'log' ] ) ) {
+			$extension = 'txt';
+		}
+
+		return $extension;
 	}
 
 	/**
@@ -78,6 +85,10 @@ class YMSK_Logger extends YMSK_Utility {
 		if ( ! file_exists( $log_dir_path ) && ! wp_mkdir_p( $log_dir_path ) ) {
 			return false;
 		}
+
+		// Create `noindex` files.
+		file_put_contents( $log_dir_path . 'index.php', "<?php\n\n// Silence is golden" );
+		file_put_contents( $log_dir_path . '.htaccess', 'deny from all' );
 
 		// Form new line.
 		$datetime_string = ( function_exists( 'wp_date' ) ? 'wp_date' : 'current_time' )( 'Y-m-d H:i:s' );
@@ -138,7 +149,6 @@ class YMSK_Logger extends YMSK_Utility {
 }
 
 new YMSK_Logger( 'logger', [
-	'is_beta'      => true,
 	'is_permanent' => true,
 	'section'      => 'permanent',
 	'title'        => _x( 'Logger', 'Utility Title', 'ym-site-kit' ),
@@ -154,9 +164,11 @@ new YMSK_Logger( 'logger', [
 		sprintf( '<br>%s: %s.',
 			__( 'View logs', 'ym-site-kit' ),
 			implode( ', ', array_map( function ( string $file_name ) {
-				return sprintf( '<a href="%s" target="_blank">%s</a>',
+				return sprintf( '<a href="%s" class="ymsk-logger-dialog-link" data-loading="%s" data-file="%s">%s</a>',
 					YMSK_Logger::get_file_uri( $file_name ),
-					$file_name,
+					esc_attr__( 'loading…', 'ym-site-kit' ),
+					esc_attr( $file_name ),
+					esc_html( $file_name ),
 				);
 			}, YMSK_Logger::get_allowed_files() ) ),
 		),
@@ -174,5 +186,84 @@ new YMSK_Logger( 'logger', [
 
 			return $output;
 		}, 1000, 2 );
+
+		// Adds CodeMirror dialogs to Utilities page.
+		add_action( 'admin_enqueue_scripts', function ( string $hook ) {
+			if ( 'tools_page_ymsk-utilities' !== $hook ) {
+				return;
+			}
+
+			wp_enqueue_script( 'jquery-ui-dialog' );
+			wp_enqueue_style( 'wp-jquery-ui-dialog' );
+
+			wp_enqueue_code_editor( [ 'type' => 'text/plain' ] );
+
+			wp_enqueue_script( 'wp-theme-plugin-editor' );
+			wp_enqueue_style( 'wp-codemirror' );
+
+			wp_enqueue_script( 'ymsk-logger-admin-dialog', YMSK_ROOT_URI . 'assets/js/ymsk-logger-admin-dialog.js',
+				[ 'jquery', 'jquery-ui-dialog', 'wp-theme-plugin-editor' ],
+				'1.0', true
+			);
+			wp_add_inline_script( 'ymsk-logger-admin-dialog', 'const YMSK_Logger = ' . wp_json_encode([
+				'restURL'   => rest_url( 'ymsk/v1/logger' ),
+				'restNonce' => wp_create_nonce( 'wp_rest' ),
+			]), 'before' );
+		});
+		add_action( 'admin_footer', function () {
+			$screen = get_current_screen();
+
+			if ( empty( $screen ) || 'tools_page_ymsk-utilities' !== $screen->base ) {
+				return;
+			}
+
+			foreach ( YMSK_Logger::get_allowed_files() as $file ) {
+				printf( '<div class="ymsk-logger-dialog ymsk-logger-dialog-%1$s" title="%1$s.%2$s" style="display:none"><textarea id="ymsk-logger-dialog-editor-%1$s" rows="10" cols="50"></textarea></div>',
+					esc_attr( $file ),
+					esc_attr( YMSK_Logger::get_file_extension() ),
+				);
+			}
+
+			echo '<style>.ymsk-logger-dialog { padding: 0; } .ymsk-logger-dialog > .CodeMirror { height: 100%;max-height: 80svh; }</style>';
+		});
+
+		// Registers REST routes.
+		add_action( 'rest_api_init', function () {
+			register_rest_route( 'ymsk/v1', '/logger/get_content', [
+				'methods'  => 'POST',
+				'args'     => [
+					'file' => [
+						'type'     => 'string',
+						'default'  => 'common',
+						'required' => true,
+						'sanitize_callback' => fn ( $value ) => sanitize_text_field( $value ),
+						'validate_Callback' => fn ( $value ) => YMSK_Logger::is_file_allowed( $value ),
+					],
+				],
+				'callback' => function ( WP_REST_Request $request ) : WP_REST_Response {
+					$file_path = YMSK_Logger::get_file_path( $request->get_param( 'file' ) );
+
+					if ( ! file_exists( $file_path ) ) {
+						return new WP_REST_Response([
+							'message' => __( 'The file does not exist.', 'ym-site-kit' ),
+						], 404 );
+					}
+
+					$content = file_get_contents( $file_path );
+
+					if ( false === $content ) {
+						return new WP_REST_Response([
+							'message' => __( 'Error retrieving file content.', 'ym-site-kit' ),
+						], 404 );
+					}
+
+					return new WP_REST_Response([
+						'success' => true,
+						'data'    => esc_html( $content ),
+					]);
+				},
+				'permission_callback' => fn () => current_user_can( 'manage_options' ),
+			]);
+		});
 	},
 ]);

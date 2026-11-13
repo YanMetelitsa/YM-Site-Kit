@@ -1,3 +1,14 @@
+# YM Site Kit
+
+![YM Site Kit Banner](https://ps.w.org/ym-site-kit/assets/banner-1544x500.png)
+
+[![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![Required PHP](https://img.shields.io/wordpress/plugin/required-php/ym-site-kit?label=Required%20PHP)
+![Required WordPress](https://img.shields.io/wordpress/plugin/wp-version/ym-site-kit?label=Required%20WordPress)
+
+![Downloads](https://img.shields.io/wordpress/plugin/dt/ym-site-kit.svg?label=WordPress.org%20Downloads)
+[![Rating](https://img.shields.io/wordpress/plugin/r/ym-site-kit.svg?label=WordPress.org%20Rating)](https://wordpress.org/support/plugin/ym-site-kit/reviews/)
+
 # Description
 
 **YM Site Kit** is a collection of small, practical utilities designed to make working with your WordPress site more convenient and efficient.
@@ -58,25 +69,61 @@ For advanced usage of the plugin, refer to [the official documentation](https://
 
 # Changelog
 
+##  0.3.2
+
+*Added*
+
+* Viewing log files via pop-up window
+* [`ymsk_maintenance_mode_display_placeholder`](https://yanmet.com/blog/ym-site-kit-wordpress-plugin-documentation#ymsk_maintenance_mode_display_placeholder) filter
+
+*Changed*
+
+* Image conversion algorithm
+
+*Fixed*
+
+* Transliteration hook argument type bug
+* Log files security
+* Small fixes and improvements
+
 ## 0.3.0
-* New: **Duplicator** Utility
+
+*Added*
+
+* **Duplicator** Utility
 
 ## 0.2.0
-* New: Permanent Utilities
-* New: **Logger** Utility
+
+*Added*
+
+* Permanent Utilities
+* **Logger** Utility
 
 ## 0.1.6
-* New: **SVG Support** Utility
+
+*Added*
+
+* **SVG Support** Utility
 
 ## 0.1.5
-* New: **SVG Logo** Utility
+
+*Added*
+
+* **SVG Logo** Utility
 
 ## 0.1.4
-* New: **Transliterator** Utility
+
+*Added*
+
+* **Transliterator** Utility
 
 ## 0.1.3
-* New: Utilities Actions and Filters
-* New: **Advanced Columns** Utility
+
+*Added*
+
+* **Advanced Columns** Utility
+* Utilities Actions and Filters
 
 ## 0.1.2
+
 * Initial release
